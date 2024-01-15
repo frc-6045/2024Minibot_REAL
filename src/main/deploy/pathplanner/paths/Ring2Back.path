@@ -1,0 +1,60 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.336997280629632,
+        "y": 6.99346460304295
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.8573849155894782,
+        "y": 7.023867596845146
+      },
+      "isLocked": false,
+      "linkedName": "Ring2"
+    },
+    {
+      "anchor": {
+        "x": 1.3837851372385206,
+        "y": 5.583099697005081
+      },
+      "prevControl": {
+        "x": 2.702383626015778,
+        "y": 5.917532628829225
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Start"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0,
+      "rotationDegrees": -177.27368900609372,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 178.3459143930357,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "4Ring",
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}

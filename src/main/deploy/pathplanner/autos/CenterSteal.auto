@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7612792476769783,
+      "y": 6.808658167079367
+    },
+    "rotation": -116.56505117707802
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CenterStealTo2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CenterStealFrom2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CenterStealTo1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CenterStealFrom1"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
