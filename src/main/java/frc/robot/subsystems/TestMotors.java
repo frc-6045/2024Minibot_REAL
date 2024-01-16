@@ -23,7 +23,7 @@ public class TestMotors extends SubsystemBase {
   private final CANSparkFlex m_testMotorFlex2;
   private final RelativeEncoder m_testMotor1Encoder;
   private final RelativeEncoder m_testMotor2Encoder; 
- 
+  
   public TestMotors() {
     m_testMotor1 = new CANSparkMax(TestMotorConstants.kTestMotor1CANID, MotorType.kBrushless);
     m_testMotor2 = new CANSparkMax(TestMotorConstants.kTestMotor2CANID, MotorType.kBrushless);
@@ -54,8 +54,8 @@ public class TestMotors extends SubsystemBase {
 
   }
 
-  //WIP
-  public void runFlexMotors(Supplier<Double> speed1Flex, Supplier<Double> speed2Flex){
+  
+  public void bothTriggerRunFlexMotors(Supplier<Double> speed1Flex, Supplier<Double> speed2Flex){
     if(speed1Flex.get() <= TestMotorConstants.kTestMotor1FlexMaxSpeed){
       m_testMotorFlex1.set(speed1Flex.get());
     } else {
@@ -66,23 +66,37 @@ public class TestMotors extends SubsystemBase {
     } else {
       m_testMotorFlex2.set(-TestMotorConstants.kTestMotor2FlexMaxSpeed);
     }
-
   }
 
-  public void OneSupplierRunMotors(Supplier<Double> speed){
-   if(speed.get() <= TestMotorConstants.kTestMotor1MaxSpeed){
-      m_testMotor1.set(speed.get());
+  public void runFlexMotors(Supplier<Double> speed1){
+    if(speed1.get() <= TestMotorConstants.kTestMotor1FlexMaxSpeed){
+      m_testMotorFlex1.set(speed1.get());
     } else {
-      m_testMotor1.set(TestMotorConstants.kTestMotor1MaxSpeed);
+      m_testMotorFlex1.set(TestMotorConstants.kTestMotor1FlexMaxSpeed);
     }
-    if(speed.get() <= TestMotorConstants.kTestMotor2MaxSpeed){
-      m_testMotor2.set(-speed.get());
+    if(speed1.get() <= TestMotorConstants.kTestMotor2FlexMaxSpeed){
+      m_testMotorFlex2.set(-speed1.get());
     } else {
-      m_testMotor2.set(-TestMotorConstants.kTestMotor2MaxSpeed);
+      m_testMotorFlex2.set(-TestMotorConstants.kTestMotor2FlexMaxSpeed);
     }
-
   }
 
+
+  // deperCATed, no touchie
+  // public void OneSupplierRunMotors(Supplier<Double> speed){
+  //  if(speed.get() <= TestMotorConstants.kTestMotor1MaxSpeed){
+  //     m_testMotor1.set(speed.get());
+  //   } else {
+  //     m_testMotor1.set(TestMotorConstants.kTestMotor1MaxSpeed);
+  //   }
+  //   if(speed.get() <= TestMotorConstants.kTestMotor2MaxSpeed){
+  //     m_testMotor2.set(-speed.get());
+  //   } else {
+  //     m_testMotor2.set(-TestMotorConstants.kTestMotor2MaxSpeed);
+  //   }
+  // }
+
+  
   public void stop(){
     m_testMotor1.set(0);
     m_testMotor2.set(0);

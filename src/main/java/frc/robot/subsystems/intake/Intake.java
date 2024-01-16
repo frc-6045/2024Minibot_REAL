@@ -4,18 +4,41 @@
 
 package frc.robot.subsystems.intake;
 
-import com.revrobotics.CANSparkBase;
+
+
+
+import java.util.function.Supplier;
+
+import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
+import frc.robot.subsystems.Pneumatics;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-  private CANSparkBase m_IntakeMotor;
-  private Indexer m_Indexer;
+  private final CANSparkFlex m_IntakeMotor;
+  private final Pneumatics m_Pneumatics;
   public Intake() {
-
+    m_Pneumatics = new Pneumatics();
+    m_IntakeMotor = new CANSparkFlex(IntakeConstants.kIntakeCANID, MotorType.kBrushless);
+    //m_Pneumatics.ActutateIntakeSolenoid();
   }
 
+  public void runIntake(Supplier<Double> speed){
+    m_IntakeMotor.set(speed.get());
+  }
+
+  public void runIntakeAtSetSpeed(){
+    m_IntakeMotor.set(IntakeConstants.kIntakeSpeed);
+  }
+
+  public void stopIntake() {
+    m_IntakeMotor.set(0);
+  }
+
+   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

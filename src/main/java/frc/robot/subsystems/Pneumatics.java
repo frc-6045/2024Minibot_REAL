@@ -18,6 +18,11 @@ public class Pneumatics extends SubsystemBase {
   /** Creates a new Pneumatics. */
   private final Compressor m_Compressor;
   private final Solenoid m_Solenoid;
+
+  private Solenoid m_IntakeSolenoid1;
+  private Solenoid m_IntakeSolenoid2;
+
+
   private final DoubleSolenoid m_DoubleSolenoid; //change to doublesolenoid
   public Pneumatics() {
     m_Compressor = new Compressor(PneumaticsConstants.kPneumaticsModuleCANID, PneumaticsModuleType.REVPH);
@@ -40,18 +45,11 @@ public class Pneumatics extends SubsystemBase {
     m_Compressor.disable();
   }
 
-  public void setSolenoid(Supplier<Boolean> bool0, Supplier<Boolean> bool1){
-    if(bool0.get()){
-      System.out.println("forward");
-      m_DoubleSolenoid.set(Value.kForward);
-    } else if(bool1.get()){
-      System.out.println("reverse");
-      m_DoubleSolenoid.set(Value.kReverse);
-    } else {
-      System.out.println("off");
-      m_DoubleSolenoid.set(Value.kOff);
-    }
+  public void ActutateIntakeSolenoid(){
+    m_IntakeSolenoid1.toggle();
+    m_IntakeSolenoid2.toggle();
   }
+
   public Solenoid getSolenoid(){
     return m_Solenoid;
   }

@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.XboxController;
@@ -18,17 +20,23 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.TestMotorConstants;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.TestMotors;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.swerve.DriveSubsystem;
 
 public class RobotContainer{
 private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 private final XboxController m_driverController = new XboxController(0);
+private final XboxController m_operatorController = new XboxController(1);
 private final TestMotors m_TestMotors = new TestMotors();
 private final Pneumatics m_Pneumatics = new Pneumatics();
+private final Intake m_Intake = new Intake();
+//state checks
 private Boolean bCompressorEnabled = true;
+private Boolean bIntakeToggle = false;
 
 private Autos m_autos = new Autos(m_driveSubsystem, m_TestMotors);  
 private ShuffleboardTab teleopTab = Shuffleboard.getTab("teleOp");
@@ -61,10 +69,16 @@ public RobotContainer() {
 
     //Both Trigger Control of Test Flex Motors
     new Trigger(() -> {return (m_driverController.getRightTriggerAxis() > 0 || m_driverController.getLeftTriggerAxis() > 0);}).whileTrue(
-    new RunCommand(() -> {m_TestMotors.runFlexMotors(() -> {return MathUtil.applyDeadband(m_driverController.getRightTriggerAxis(), 0, TestMotorConstants.kTestMotor1FlexMaxSpeed);},
+    new RunCommand(() -> {m_TestMotors.bothTriggerRunFlexMotors(() -> {return MathUtil.applyDeadband(m_driverController.getRightTriggerAxis(), 0, TestMotorConstants.kTestMotor1FlexMaxSpeed);},
      () -> {return MathUtil.applyDeadband(m_driverController.getLeftTriggerAxis(), 0, TestMotorConstants.kTestMotor2FlexMaxSpeed);});},
       m_TestMotors)).onFalse((new RunCommand(() -> {m_TestMotors.stop();}, m_TestMotors)));
 
+    // new Trigger(() -> {return (m_driverController.getRightTriggerAxis() > 0);}).whileTrue(new RunCommand(
+    //   () -> {
+    //     m_TestMotors.runFlexMotors(m_driverController::getRightTriggerAxis);
+    //   }, m_TestMotors));
+    
+    
     // new Trigger(() -> {return (m_driverController.getLeftTriggerAxis() > 0);}).whileTrue(new RunCommand(() -> {
     //   m_TestMotors.OneSupplierRunMotors(m_driverController::getLeftTriggerAxis);
     // }, m_TestMotors));
@@ -90,8 +104,43 @@ public RobotContainer() {
     new Trigger(()-> {return m_driverController.getBButtonPressed();}).onTrue(new InstantCommand(() -> {
       m_Pneumatics.getSolenoid().toggle();
     }, m_Pneumatics));
+
+    new Trigger(() -> {return m_driverController.getPOV() == 0;}).onTrue(new InstantCommand(() -> {
+      m_Intake.runIntakeAtSetSpeed();
+    }, m_Intake))
+    .onFalse(new InstantCommand(() -> {m_Intake.stopIntake();}, m_Intake));
+
+    new Trigger(() -> {return m_driverController.getLeftBumperPressed();}).toggleOnTrue(new InstantCommand(() -> {
+      m_Intake.runIntakeAtSetSpeed();
+    })).toggleOnFalse(new InstantCommand(() -> {
+      m_Intake.stopIntake();
+    }));
+
+
+    //try if above doesnt work
+    // new Trigger(() -> {return m_driverController.getLeftBumperPressed();}).onTrue(new InstantCommand(() -> {
+    //   if(!bIntakeToggle){
+    //     m_Intake.runIntakeAtSetSpeed();
+    //     bIntakeToggle = true;
+    //   } else {
+    //     m_Intake.stopIntake();
+    //     bIntakeToggle = false;
+    //   }
+    // }, m_Intake));
+
+    
+
+    new Trigger(() -> {return m_operatorController.getRightTriggerAxis() > .95;}).whileTrue(new RunCommand(() -> {
+      m_Intake.runIntake(() -> {return IntakeConstants.kIntakeSpeed;});
+    }, m_Intake));
+
+    new Trigger(() -> {return m_operatorController.getLeftTriggerAxis() > .95;}).whileTrue(new RunCommand(() -> {
+        m_Intake.runIntake(() -> {return -IntakeConstants.kIntakeSpeed;});
+    }, m_Intake));
   }
 
+
+  
   public Command getAutonomousCommand() {
     return m_autos.getAutonomousCommand();
   }

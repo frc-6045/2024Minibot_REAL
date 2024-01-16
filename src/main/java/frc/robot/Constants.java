@@ -222,6 +222,10 @@ public final class Constants {
   
   }
 
+  public static final class IntakeConstants {
+    public static final int kIntakeCANID = 0; //TODO this
+    public static final double kIntakeSpeed = 1.00; //full power at start
+  }
 
   public static final class PneumaticsConstants {
     public static final int kPneumaticsModuleCANID = 20; 
