@@ -217,15 +217,16 @@ public final class Constants {
 
     public static final double kTestMotor1MaxSpeed = 0.10;
     public static final double kTestMotor2MaxSpeed = 0.10;
-    public static final double kTestMotor1FlexMaxSpeed = 0.90; // WIP
-    public static final double kTestMotor2FlexMaxSpeed = 0.90;
+    public static final double kTestMotor1FlexMaxSpeed = 1.00; // WIP
+    public static final double kTestMotor2FlexMaxSpeed = 1.00;
   
   }
-  
+
 
   public static final class PneumaticsConstants {
     public static final int kPneumaticsModuleCANID = 20; 
-    public static final int kSolenoidForwardChannel = 0; //TODO: check if needs to be swaped
-    public static final int kSolenoidReverseChannel = 1; 
+    public static final int kDoubleSolenoidForwardChannel = 0; //TODO: check if needs to be swaped
+    public static final int kDoubleSolenoidReverseChannel = 1;
+    public static final int kSolenoidSingleChannel = 2; 
   }
 }

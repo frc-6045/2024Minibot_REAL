@@ -70,7 +70,7 @@ public RobotContainer() {
     // }, m_TestMotors));
 
 
-    //Pneumatics Killswitch
+    //Compressor Toggle
     new Trigger(() -> {return m_driverController.getRightBumper();}).onTrue(new InstantCommand(() -> {
       if(bCompressorEnabled){
         m_Pneumatics.disableCompressor();
@@ -81,18 +81,15 @@ public RobotContainer() {
       }
     }, m_Pneumatics));
 
-    new Trigger(() -> {return m_driverController.getAButton();}).whileTrue(new RunCommand(() -> {
-     m_Pneumatics.getSolenoid().toggle();
+    // A toggle for DoubleSolenoid
+    new Trigger(() -> {return m_driverController.getAButtonPressed();}).onTrue(new InstantCommand(() -> {
+     m_Pneumatics.getDoubleSolenoid().toggle();
     }, m_Pneumatics));
 
-  //  new Trigger(() ->{return m_driverController.getAButton();}).onTrue(new InstantCommand(() -> {
-  //     m_Pneumatics.getSolenoid().set(Value.kForward);
-  //     System.out.println("forward");
-  // }, m_Pneumatics)).onFalse(new InstantCommand(() -> {
-  //         m_Pneumatics.getSolenoid().set(Value.kOff);
-  //     System.out.println("off");
-  // }, m_Pneumatics));
-
+    // B toggle for SingleSolenoid
+    new Trigger(()-> {return m_driverController.getBButtonPressed();}).onTrue(new InstantCommand(() -> {
+      m_Pneumatics.getSolenoid().toggle();
+    }, m_Pneumatics));
   }
 
   public Command getAutonomousCommand() {
