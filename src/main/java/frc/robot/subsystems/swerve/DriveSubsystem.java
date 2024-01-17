@@ -58,56 +58,30 @@ public class DriveSubsystem extends SubsystemBase {
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDrivingCanId,
       DriveConstants.kFrontLeftTurningCanId,
-      DriveConstants.kFrontLeftChassisAngularOffset,
-      "m_frontLeft");
+      DriveConstants.kFrontLeftChassisAngularOffset);
 
   private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
       DriveConstants.kFrontRightDrivingCanId,
       DriveConstants.kFrontRightTurningCanId,
-      DriveConstants.kFrontRightChassisAngularOffset,
-      "m_frontRight");
+      DriveConstants.kFrontRightChassisAngularOffset);
 
   private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
       DriveConstants.kRearLeftDrivingCanId,
       DriveConstants.kRearLeftTurningCanId,
-      DriveConstants.kBackLeftChassisAngularOffset,
-      "m_rearLeft");
+      DriveConstants.kBackLeftChassisAngularOffset);
 
   private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
       DriveConstants.kRearRightDrivingCanId,
       DriveConstants.kRearRightTurningCanId,
-      DriveConstants.kBackRightChassisAngularOffset,
-      "m_rearLeft");
+      DriveConstants.kBackRightChassisAngularOffset);
 
   
 
   private final PIDController m_VisionLockController = new PIDController(0.014, 0, 0);
-  
-  private final DataLog m_log;
-  
-
   // The gyro sensor
-private final AHRS m_gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
-// private final AHRS m_gyro = new AHRS(I2C.Port.kOnboard, (byte) 200);
-
- //private final AHRS m_gyro = new 
-  
-
-  private final DoubleLogEntry m_navYawLog;
-  private final DoubleLogEntry m_navPitchLog;
-  private final DoubleLogEntry m_navRollLog;
-  private final DoubleLogEntry m_calculatedPitch;
-  private final StringLogEntry m_currentCommandLog;
-
+  private final AHRS m_gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
 
   // Odometry class for tracking robot pose
-
-  //gyro.getHeadingDegrees();
-
-
-
-
-
       private final SwerveDrivePoseEstimator m_poseEstimator =
       new SwerveDrivePoseEstimator(
           DriveConstants.kDriveKinematics,
@@ -125,10 +99,9 @@ private final AHRS m_gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
 
           //1.5 1.5 0.65
           //0.05, 0.05, 10
-      //LimelightHelpers.LimelightResults llresults = LimelightHelpers.getLatestResults("limelight");
-      // ShuffleboardTab limeLightTab = Shuffleboard.getTab("limelight");
+   
       Field2d m_field = new Field2d();
-      boolean limelightToggledOn = true;
+    
       
             //for characterization
             private boolean isCharacterizing = false;
@@ -145,31 +118,15 @@ private final AHRS m_gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
   }
     this.xLimiter = new SlewRateLimiter(1.8);
     this.yLimiter = new SlewRateLimiter(1.8);
-
-    // this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-    // this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-
     this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond);
     m_VisionLockController.setSetpoint(0);
 
 
-    //double[] botposeBlue = llresults.targetingResults.botpose_wpired;
-      //  limeLightTab.add(m_field);
-       
      m_gyro.setAngleAdjustment(-1);   
 
     zeroHeading();
    
-   
-  
-    m_log = DataLogManager.getLog();
     
-
-    m_navYawLog = new DoubleLogEntry(m_log, "swerve/pigeon/yaw");
-    m_navPitchLog = new DoubleLogEntry(m_log, "swerve/pigeon/pitch");
-    m_navRollLog = new DoubleLogEntry(m_log, "swerve/pigeon/roll");
-    m_calculatedPitch = new DoubleLogEntry(m_log, "swerve/pigeon/calculated_pitch");
-    m_currentCommandLog = new StringLogEntry(m_log, "/swerve/command");
 
 
      AutoBuilder.configureHolonomic(
@@ -188,13 +145,13 @@ private final AHRS m_gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
 
   public void periodic() {
     // Update the odometry in the periodic block
+    // TODO: test if this is the thing making it do circles (i.e isCharacterizing == True)
     if(isCharacterizing){
       m_frontLeft.runCharacterization(characterizationVolts, DriveConstants.kFrontLeftChassisAngularOffset);
       m_frontRight.runCharacterization(characterizationVolts, DriveConstants.kFrontRightChassisAngularOffset);
       m_rearLeft.runCharacterization(characterizationVolts, DriveConstants.kBackLeftChassisAngularOffset);
       m_rearRight.runCharacterization(characterizationVolts, DriveConstants.kBackRightChassisAngularOffset);
     }
-    logData();
    
 
 
@@ -530,19 +487,6 @@ public void setModuleTurnVoltage(double voltage) {
   {
     return m_rearRight.getEncoderCounts();
   }
-
- 
-
-   private void logData() {
-    long timeStamp = (long) (Timer.getFPGATimestamp() * 1e6);
-    m_navYawLog.append(m_gyro.getYaw(), timeStamp);
-    m_navPitchLog.append(m_gyro.getPitch(), timeStamp);
-    m_navRollLog.append(m_gyro.getRoll(), timeStamp);
-    m_calculatedPitch.append(getHeadingDegrees(), timeStamp);
-
-    Command currentCommand = getCurrentCommand();
-    m_currentCommandLog.append(currentCommand != null ? currentCommand.getName() : "None", timeStamp);
-}
 
 public void runCharacterizationVolts(double volts){
   isCharacterizing = true;

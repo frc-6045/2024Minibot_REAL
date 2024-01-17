@@ -45,7 +45,12 @@ public class Pneumatics extends SubsystemBase {
     m_Compressor.disable();
   }
 
-  public void ActutateIntakeSolenoid(){
+  public void ActutateIntakeSolenoid(Supplier<Boolean> isOn) {
+    m_IntakeSolenoid1.set(isOn.get());
+    m_IntakeSolenoid2.set(isOn.get());
+  }
+  
+  public void ToggleIntakeSolenoid(){
     m_IntakeSolenoid1.toggle();
     m_IntakeSolenoid2.toggle();
   }
