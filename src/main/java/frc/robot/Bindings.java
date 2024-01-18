@@ -101,12 +101,14 @@ public class Bindings {
 
     
 
-        new Trigger(() -> {return operatorController.getRightTriggerAxis() > .95;}).whileTrue(new RunCommand(() -> {
-        intake.runIntake(() -> {return IntakeConstants.kIntakeSpeed;});
+        new Trigger(() -> {return operatorController.getRightTriggerAxis() > .05;}).whileTrue(new RunCommand(() -> {
+            intake.runIntake(() -> {return IntakeConstants.kIntakeSpeed;});
         }, intake));
 
-        new Trigger(() -> {return operatorController.getLeftTriggerAxis() > .95;}).whileTrue(new RunCommand(() -> {
+        new Trigger(() -> {return operatorController.getLeftTriggerAxis() > .05;}).whileTrue(new RunCommand(() -> {
             intake.runIntake(() -> {return -IntakeConstants.kIntakeSpeed;});
         }, intake));
+
+    
     }
 }

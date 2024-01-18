@@ -41,7 +41,14 @@ private Boolean bIntakeToggle = false;
 private Autos m_autos = new Autos(m_driveSubsystem, m_TestMotors);  
 private ShuffleboardTab teleopTab = Shuffleboard.getTab("teleOp");
 public RobotContainer() {
+    m_Pneumatics.setDefaultCommand(new RunCommand(() -> {
+      if(m_operatorController.getPOV() == 0) {
+        m_Pneumatics.ActutateIntakeSolenoid(true);
+      } else if(m_operatorController.getPOV() == 180) {
+        m_Pneumatics.ActutateIntakeSolenoid(false);
+      }
 
+    }));
     m_driveSubsystem.setDefaultCommand(
     new RunCommand(
             () -> m_driveSubsystem.drive(
