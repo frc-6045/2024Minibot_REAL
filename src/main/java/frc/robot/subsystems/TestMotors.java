@@ -6,13 +6,15 @@ package frc.robot.subsystems;
 
 import java.util.function.Supplier;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import frc.robot.Constants.TestMotorConstants;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TestMotors extends SubsystemBase {
@@ -24,6 +26,10 @@ public class TestMotors extends SubsystemBase {
   private final RelativeEncoder m_testMotor1Encoder;
   private final RelativeEncoder m_testMotor2Encoder; 
   
+  private final CANSparkMax m_AngleControlMotor;
+  private final AbsoluteEncoder m_AngleEncoder;
+
+  
   public TestMotors() {
     m_testMotor1 = new CANSparkMax(TestMotorConstants.kTestMotor1CANID, MotorType.kBrushless);
     m_testMotor2 = new CANSparkMax(TestMotorConstants.kTestMotor2CANID, MotorType.kBrushless);
@@ -32,6 +38,9 @@ public class TestMotors extends SubsystemBase {
     m_testMotor1Encoder = m_testMotor1.getEncoder();
     m_testMotor2Encoder = m_testMotor2.getEncoder();
 
+    m_AngleControlMotor = new CANSparkMax(TestMotorConstants.kAngleControlCANID, MotorType.kBrushless);
+    m_AngleEncoder = m_AngleControlMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    
   }
 
   @Override
@@ -129,6 +138,14 @@ public class TestMotors extends SubsystemBase {
         return m_testMotor2Encoder.getVelocity() * 2 * Math.PI;
       default:
         return 0;
-  }
+  } 
 }
+
+    public AbsoluteEncoder getAngleEncoder(){
+      return m_AngleEncoder;
+    }
+
+    public CANSparkMax getAngleMotor(){
+      return m_AngleControlMotor;
+    }
 }

@@ -222,6 +222,11 @@ public final class Constants {
     public static final int kTestMotor1FlexCANID = 12;  //left trigger WIP
     public static final int kTestMotor2FlexCANID = 13;  //right trigger
 
+    public static final int kAngleControlCANID = 0; //TODO hey
+    public static final double kAngleP = 0.0;
+    public static final double kAngleI = 0.0;
+    public static final double kAngleD = 0.0;
+
     public static final double kTestMotor1MaxSpeed = 0.10;
     public static final double kTestMotor2MaxSpeed = 0.10;
     public static final double kTestMotor1FlexMaxSpeed = 1.00; // WIP
