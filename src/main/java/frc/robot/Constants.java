@@ -39,14 +39,21 @@ import pabeles.concurrency.ConcurrencyOps.NewInstance;
  */
 public final class Constants {
 
-  
+  public static final class FieldConstants{
+    public static double kLowSpeakerOpeningHeight = 1.98;  //meters
+    public static double kHighSpeakerOpeningHeight = 2.11;  //meters
+    public static double kHighSpeakerOpeningDistanceFromWall = .46; //meters
+    public static Pose2d kSpeakerBackLocation = new Pose2d(0.0, 5.525, new Rotation2d(0.0));
+    public static Pose2d kSpeakerFrontLoation = new Pose2d(kHighSpeakerOpeningDistanceFromWall, 5.525, new Rotation2d(0.0));
+
+  }
 
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
     
     //Slew Constants
-    public static final double kMaxSpeedMetersPerSecond = 4.8; //changed from 4.8 bc stuff wasnt straped down TODO: do that
+    public static final double kMaxSpeedMetersPerSecond = 4.8; //changed from 4.8 bc stuff wasnt straped down
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
@@ -55,7 +62,7 @@ public final class Constants {
 
 
     // Chassis configuration
-    public static final double kTrackWidth = Units.inchesToMeters(22.5); //22.5
+    public static final double kTrackWidth = Units.inchesToMeters(22.5); //22.5 //TODO: find all of this
     // Distance between centers of right and left wheels on robot
     public static final double kWheelBase = Units.inchesToMeters(26.7); // 26.7
     // Distance between front and back wheels on robot
