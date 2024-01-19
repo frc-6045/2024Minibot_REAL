@@ -220,24 +220,6 @@ public final class Constants {
     public static final double kShooterMaxSpeed = 1.00;
   }
 
-
-  //depercated
-  public static final class TestMotorConstants {
-    public static final int kTestMotor1FlexCANID = 12;  //left trigger WIP
-    public static final int kTestMotor2FlexCANID = 13;  //right trigger
-
-    public static final int kAngleControlCANID = 0; //TODO hey
-    public static final double kAngleP = 0.0;
-    public static final double kAngleI = 0.0;
-    public static final double kAngleD = 0.0;
-
-    public static final double kTestMotor1MaxSpeed = 0.10;
-    public static final double kTestMotor2MaxSpeed = 0.10;
-    public static final double kTestMotor1FlexMaxSpeed = 1.00; // WIP
-    public static final double kTestMotor2FlexMaxSpeed = 1.00;
-  
-  }
-
   public static final class IntakeConstants {
     public static final int kIntakeCANID = 21; 
     public static final int kFeederCANID = 22;
@@ -249,5 +231,10 @@ public final class Constants {
     public static final int kDoubleSolenoidForwardChannel = 20; //TODO: check if needs to be swaped
     public static final int kDoubleSolenoidReverseChannel = 21; // junk
     public static final int kSolenoidSingleChannel =0; 
+
+    public static final int kAngleControlCANID = 0; //TODO hey
+    public static final double kAngleP = 0.0;
+    public static final double kAngleI = 0.0;
+    public static final double kAngleD = 0.0;
   }
 }
