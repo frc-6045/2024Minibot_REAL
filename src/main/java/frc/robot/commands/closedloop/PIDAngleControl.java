@@ -7,14 +7,15 @@ package frc.robot.commands.closedloop;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.TestMotorConstants;
-import frc.robot.subsystems.TestMotors;
+import frc.robot.subsystems.Shooter;
+
 
 public class PIDAngleControl extends Command {
   /** Creates a new PIDAngleControl. */
-  private final TestMotors m_Shooter;
+  private Shooter m_Shooter;
   private final PIDController m_AnglePIDController;
   private double setpoint;
-  public PIDAngleControl(TestMotors shooter, double setpoint) {
+  public PIDAngleControl(Shooter shooter, double setpoint) {
     m_Shooter = shooter;
     this.setpoint = setpoint;
     m_AnglePIDController = new PIDController(TestMotorConstants.kAngleP, TestMotorConstants.kAngleI, TestMotorConstants.kAngleD);
@@ -31,14 +32,14 @@ public class PIDAngleControl extends Command {
   @Override
   public void execute() {
     double feedforward = 0.0; // just to have TODO: maybe do characterization??
-    double speed = m_AnglePIDController.calculate(m_Shooter.getAngleEncoder().getPosition(), setpoint);
-    m_Shooter.getAngleMotor().set(speed);
+    //double speed = m_AnglePIDController.calculate(m_Shooter.getAngleEncoder().getPosition(), setpoint);
+    //m_Shooter.getAngleMotor().set(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Shooter.getAngleMotor().set(0);
+    //m_Shooter.getAngleMotor().set(0);
   }
 
   // Returns true when the command should end.

@@ -16,15 +16,12 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.Pneumatics;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   private final CANSparkFlex m_IntakeMotor;
   private final CANSparkMax m_FeederMotor;
-  private final Pneumatics m_Pneumatics;
   public Intake() {
-    m_Pneumatics = new Pneumatics();
     m_IntakeMotor = new CANSparkFlex(IntakeConstants.kIntakeCANID, MotorType.kBrushless);
     //m_Pneumatics.ActutateIntakeSolenoid();
     m_FeederMotor = new CANSparkMax(IntakeConstants.kFeederCANID, MotorType.kBrushless);

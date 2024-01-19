@@ -12,8 +12,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.TestMotorConstants;
+import frc.robot.commands.openloop.ShooterOpenLoop;
 import frc.robot.subsystems.Pneumatics;
-import frc.robot.subsystems.TestMotors;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.swerve.DriveSubsystem;
 
@@ -21,35 +22,22 @@ import frc.robot.subsystems.swerve.DriveSubsystem;
 public class Bindings {
 
     private static Boolean bCompressorEnabled = true;
+    private static Boolean bIntakeToggle = false;
 
     public Bindings() {}
 
         // TODO: test if this works! it should!
         public static void InitBindings(XboxController driverController, XboxController operatorController, 
             DriveSubsystem driveSubsystem, 
-            TestMotors testMotors, 
+            Shooter shooter,
             Pneumatics pneumatics, 
             Intake intake){
         
         new JoystickButton(driverController, XboxController.Button.kStart.value).onTrue(new RunCommand(() -> { driveSubsystem.zeroHeading();}));
         
-        // Both Trigger Control of Test Motors
-        new Trigger(() -> {return (driverController.getRightTriggerAxis() > 0 || driverController.getLeftTriggerAxis() > 0);}).whileTrue(
-        new RunCommand(() -> {testMotors.runMotors(() -> {return MathUtil.applyDeadband(driverController.getRightTriggerAxis(), 0, TestMotorConstants.kTestMotor1MaxSpeed);},
-        () -> {return MathUtil.applyDeadband(driverController.getLeftTriggerAxis(), 0, TestMotorConstants.kTestMotor2MaxSpeed);});},
-        testMotors)).onFalse((new RunCommand(() -> {testMotors.stop();}, testMotors)));
+        new Trigger(() -> {return operatorController.getRightTriggerAxis() > 0;}).whileTrue(new ShooterOpenLoop(shooter, operatorController::getRightTriggerAxis));
 
-        //Both Trigger Control of Test Flex Motors
-        new Trigger(() -> {return (driverController.getRightTriggerAxis() > 0 || driverController.getLeftTriggerAxis() > 0);})
-        .whileTrue(
-        new RunCommand(() -> {testMotors.bothTriggerRunFlexMotors(() -> {return MathUtil.applyDeadband(driverController.getRightTriggerAxis(), 0, TestMotorConstants.kTestMotor1FlexMaxSpeed);},
-        () -> {return MathUtil.applyDeadband(driverController.getLeftTriggerAxis(), 0, TestMotorConstants.kTestMotor2FlexMaxSpeed);});},
-        testMotors)).onFalse((new RunCommand(() -> {testMotors.stop();}, testMotors)));
 
-        // new Trigger(() -> {return (driverController.getRightTriggerAxis() > 0);}).whileTrue(new RunCommand(
-        //   () -> {
-        //     testMotors.runFlexMotors(driverController::getRightTriggerAxis);
-        //   }, testMotors));
         
         
 
@@ -66,46 +54,35 @@ public class Bindings {
         }
         }, pneumatics));
 
-        // A toggle for DoubleSolenoid
-        new Trigger(() -> {return driverController.getAButtonPressed();}).onTrue(new InstantCommand(() -> {
-        pneumatics.getDoubleSolenoid().toggle();
-        }, pneumatics));
-
-        // B toggle for SingleSolenoid
-        new Trigger(()-> {return driverController.getBButtonPressed();}).onTrue(new InstantCommand(() -> {
-        pneumatics.getSolenoid().toggle();
-        }, pneumatics));
+        
+        // // B toggle for SingleSolenoid
+        // new Trigger(()-> {return driverController.getBButtonPressed();}).onTrue(new InstantCommand(() -> {
+        // pneumatics.getSolenoid().toggle();
+        // }, pneumatics));
 
         new Trigger(() -> {return driverController.getPOV() == 0;}).onTrue(new InstantCommand(() -> {
         intake.runIntakeAtSetSpeed();
         }, intake))
         .onFalse(new InstantCommand(() -> {intake.stopIntake();}, intake));
 
-        new Trigger(() -> {return driverController.getLeftBumperPressed();}).toggleOnTrue(new InstantCommand(() -> {
-        intake.runIntakeAtSetSpeed();
-        })).toggleOnFalse(new InstantCommand(() -> {
-        intake.stopIntake();
-        }));
-
-
-        //try if above doesnt work
-        // new Trigger(() -> {return m_driverController.getLeftBumperPressed();}).onTrue(new InstantCommand(() -> {
-        //   if(!bIntakeToggle){
-        //     m_Intake.runIntakeAtSetSpeed();
-        //     bIntakeToggle = true;
-        //   } else {
-        //     m_Intake.stopIntake();
-        //     bIntakeToggle = false;
-        //   }
-        // }, m_Intake));
+        // intake toggle
+        //  new Trigger(() -> {return driverController.getLeftBumperPressed();}).onTrue(new InstantCommand(() -> {
+        //    if(!bIntakeToggle){
+        //      intake.runIntakeAtSetSpeed();
+        //      bIntakeToggle = true;
+        //    } else {
+        //     intake.stopIntake();
+        //      bIntakeToggle = false;
+        //    }
+        //  }, intake));
 
     
 
-        new Trigger(() -> {return operatorController.getRightTriggerAxis() > .05;}).whileTrue(new RunCommand(() -> {
+        new Trigger(() -> {return driverController.getRightTriggerAxis() > .05;}).whileTrue(new RunCommand(() -> {
             intake.runIntake(() -> {return IntakeConstants.kIntakeSpeed;});
         }, intake));
 
-        new Trigger(() -> {return operatorController.getLeftTriggerAxis() > .05;}).whileTrue(new RunCommand(() -> {
+        new Trigger(() -> {return driverController.getLeftTriggerAxis() > .05;}).whileTrue(new RunCommand(() -> {
             intake.runIntake(() -> {return -IntakeConstants.kIntakeSpeed;});
         }, intake));
 

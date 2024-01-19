@@ -15,19 +15,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.FeedForwardCharacterization.FeedForwardCharacterizationData;
-import frc.robot.subsystems.TestMotors;
 import frc.robot.subsystems.swerve.DriveSubsystem;
 
 public class Autos {
     private final DriveSubsystem m_drivetrainSubsystem;
-    private final TestMotors m_TestMotors;
     private SendableChooser<String> autoChooser;
     private HashMap<String, List<Command>> m_commandMap;
    
     ShuffleboardTab autoTab = Shuffleboard.getTab("Autonomous");
-    public Autos(DriveSubsystem drivetrainSubsystem, TestMotors testMotors){
+    public Autos(DriveSubsystem drivetrainSubsystem){
         m_drivetrainSubsystem = drivetrainSubsystem;
-        m_TestMotors = testMotors;
         autoChooser = new SendableChooser<>();
         m_commandMap = new HashMap<>();
         
@@ -39,8 +36,6 @@ public class Autos {
             m_drivetrainSubsystem::runCharacterizationVolts, m_drivetrainSubsystem::getCharacterizationVelocity),
             new FeedForwardCharacterization(m_drivetrainSubsystem, true, new FeedForwardCharacterizationData("DriveSubsystem"), 
             m_drivetrainSubsystem::runCharacterizationVolts, m_drivetrainSubsystem::getCharacterizationVelocity)));
-        m_commandMap.put("Flywheel Charaterization", List.of(new FeedForwardCharacterization(m_TestMotors, true, new FeedForwardCharacterizationData("TestMotors"), (volts) -> {m_TestMotors.runCharacterization(0, volts);}, 
-        () -> {return m_TestMotors.getCharacterizationVelocity(0);})));
         m_commandMap.put("Basic Test Auto", List.of(AutoBuilder.buildAuto("Basic Test Auto")));
         m_commandMap.put("4Ring", List.of(AutoBuilder.buildAuto("4Ring")));
         // SmartDashboard.putData(autoChooser);

@@ -19,8 +19,6 @@ public class Pneumatics extends SubsystemBase {
   private final Compressor m_Compressor;
   private final Solenoid m_Solenoid;
 
-  private Solenoid m_IntakeSolenoid1;
-  private Solenoid m_IntakeSolenoid2;
 
 
   private final DoubleSolenoid m_DoubleSolenoid; //change to doublesolenoid
@@ -46,13 +44,12 @@ public class Pneumatics extends SubsystemBase {
   }
 
   public void ActutateIntakeSolenoid(boolean isOn) {
-    m_IntakeSolenoid1.set(isOn);
-    m_IntakeSolenoid2.set(isOn);
+    m_Solenoid.set(isOn);
+  
   }
   
   public void ToggleIntakeSolenoid(){
-    m_IntakeSolenoid1.toggle();
-    m_IntakeSolenoid2.toggle();
+    m_Solenoid.toggle();
   }
 
   public Solenoid getSolenoid(){

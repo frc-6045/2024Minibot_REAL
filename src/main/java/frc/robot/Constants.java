@@ -215,10 +215,14 @@ public final class Constants {
   
 
   }
+  public static final class ShooterConstants {
+    public static final int kShooterMotorCANID = 10;
+    public static final double kShooterMaxSpeed = 1.00;
+  }
 
+
+  //depercated
   public static final class TestMotorConstants {
-    public static final int kTestMotor1CANID = 10;  //right trigger
-    public static final int kTestMotor2CANID = 11;  //left trigger
     public static final int kTestMotor1FlexCANID = 12;  //left trigger WIP
     public static final int kTestMotor2FlexCANID = 13;  //right trigger
 
@@ -242,8 +246,8 @@ public final class Constants {
 
   public static final class PneumaticsConstants {
     public static final int kPneumaticsModuleCANID = 20; 
-    public static final int kDoubleSolenoidForwardChannel = 0; //TODO: check if needs to be swaped
-    public static final int kDoubleSolenoidReverseChannel = 1;
-    public static final int kSolenoidSingleChannel = 2; 
+    public static final int kDoubleSolenoidForwardChannel = 20; //TODO: check if needs to be swaped
+    public static final int kDoubleSolenoidReverseChannel = 21; // junk
+    public static final int kSolenoidSingleChannel =0; 
   }
 }
