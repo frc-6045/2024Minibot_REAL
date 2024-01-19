@@ -21,9 +21,9 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.swerve.DriveSubsystem;
 
 public class RobotContainer {
@@ -41,9 +41,9 @@ private Autos m_autos = new Autos(m_driveSubsystem);
 private ShuffleboardTab teleopTab = Shuffleboard.getTab("teleOp");
 public RobotContainer() {
     m_Pneumatics.setDefaultCommand(new RunCommand(() -> {
-      if(m_operatorController.getPOV() == 0) {
+      if(m_driverController.getPOV() == 0) {
         m_Pneumatics.ActutateIntakeSolenoid(true);
-      } else if(m_operatorController.getPOV() == 180) {
+      } else if(m_driverController.getPOV() == 180) {
         m_Pneumatics.ActutateIntakeSolenoid(false);
       }
     }, m_Pneumatics));

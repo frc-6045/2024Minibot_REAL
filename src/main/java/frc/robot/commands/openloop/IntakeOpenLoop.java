@@ -7,40 +7,34 @@ package frc.robot.commands.openloop;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Shooter;
+import frc.robot.Constants.IntakeConstants;
+import frc.robot.subsystems.Intake;
 
-public class ShooterOpenLoop extends Command {
-  /** Creates a new ShooterOpenLoop. */
-  private Shooter m_Shooter;
+public class IntakeOpenLoop extends Command {
+  private Intake m_Intake;
   private Supplier<Double> speedSupplier;
-  public ShooterOpenLoop(Shooter shooter, Supplier<Double> speedSupplier) {
-    m_Shooter = shooter;
+  /** Creates a new IntakeOpenLoop. */
+  public IntakeOpenLoop(Intake intake, Supplier<Double> speedSupplier) {
+    m_Intake = intake;
     this.speedSupplier = speedSupplier;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_Shooter);
+    addRequirements(m_Intake);
+     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-   
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     if(speedSupplier.get() <=  ShooterConstants.kShooterMaxSpeed){
-      m_Shooter.getMotor().set(speedSupplier.get());
-    } else {
-      m_Shooter.getMotor().set( ShooterConstants.kShooterMaxSpeed);
-    }
+    m_Intake.runIntake(speedSupplier);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_Shooter.getMotor().set(0);
+    m_Intake.stopIntake();
   }
 
   // Returns true when the command should end.

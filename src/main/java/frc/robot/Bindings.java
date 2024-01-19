@@ -11,17 +11,19 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.commands.openloop.IntakeOpenLoop;
 import frc.robot.commands.openloop.ShooterOpenLoop;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.swerve.DriveSubsystem;
 
 /** Add your docs here. */
 public class Bindings {
 
-    private static Boolean bCompressorEnabled = true;
-    private static Boolean bIntakeToggle = false;
+    private static boolean bCompressorEnabled = true;
+    private static boolean bIntakeToggle = false;
+    private static boolean bFeederToggle = false;
 
     public Bindings() {}
 
@@ -65,26 +67,24 @@ public class Bindings {
         .onFalse(new InstantCommand(() -> {intake.stopIntake();}, intake));
 
         // intake toggle
-        //  new Trigger(() -> {return driverController.getLeftBumperPressed();}).onTrue(new InstantCommand(() -> {
-        //    if(!bIntakeToggle){
-        //      intake.runIntakeAtSetSpeed();
-        //      bIntakeToggle = true;
-        //    } else {
-        //     intake.stopIntake();
-        //      bIntakeToggle = false;
-        //    }
-        //  }, intake));
+         new Trigger(() -> {return driverController.getLeftBumperPressed();}).onTrue(new InstantCommand(() -> {
+           if(!bIntakeToggle){
+             intake.runIntakeAtSetSpeed();
+             bIntakeToggle = true;
+           } else {
+            intake.stopIntake();
+             bIntakeToggle = false;
+           }
+         }, intake));
 
     
 
-        new Trigger(() -> {return driverController.getRightTriggerAxis() > .05;}).whileTrue(new RunCommand(() -> {
-            intake.runIntake(() -> {return IntakeConstants.kIntakeSpeed;});
-        }, intake));
+        new Trigger(() -> {return driverController.getRightTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, driverController::getRightTriggerAxis));
 
-        new Trigger(() -> {return driverController.getLeftTriggerAxis() > .05;}).whileTrue(new RunCommand(() -> {
-            intake.runIntake(() -> {return -IntakeConstants.kIntakeSpeed;});
-        }, intake));
+        new Trigger(() -> {return driverController.getLeftTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, () -> {return -driverController.getLeftTriggerAxis();}));
 
     
-    }
+    } 
+
+    
 }
