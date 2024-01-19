@@ -231,7 +231,7 @@ public final class Constants {
     public static final int kIntakeCANID = 21; 
     public static final int kFeederCANID = 22;
     public static final int kIndexerCANID = 23;
-    public static final double kIntakeSpeed = 1.00; //full power at start
+    public static final double kIntakeSpeed = .50; 
   }
 
   public static final class PneumaticsConstants {

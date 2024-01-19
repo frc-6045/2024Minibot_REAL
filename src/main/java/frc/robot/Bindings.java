@@ -83,8 +83,8 @@ public class Bindings {
 
         new Trigger(() -> {return driverController.getLeftTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, () -> {return -driverController.getLeftTriggerAxis();}));
 
-    
-    } 
+
+      } 
 
     
 }

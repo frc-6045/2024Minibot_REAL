@@ -29,10 +29,10 @@ public class Intake extends SubsystemBase {
 
   public void runIntake(Supplier<Double> speed){
     if(speed.get() <= IntakeConstants.kIntakeSpeed){
-      m_IntakeMotor.set(speed.get());
+      m_IntakeMotor.set(-speed.get());
       m_IndexerMotor.set(speed.get());
     } else {
-      m_IntakeMotor.set(IntakeConstants.kIntakeSpeed);
+      m_IntakeMotor.set(-IntakeConstants.kIntakeSpeed);
       m_IndexerMotor.set(IntakeConstants.kIntakeSpeed);
     }
   }
