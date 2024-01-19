@@ -6,7 +6,7 @@ package frc.robot.commands.closedloop;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.TestMotorConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Shooter;
 
 
@@ -18,7 +18,7 @@ public class PIDAngleControl extends Command {
   public PIDAngleControl(Shooter shooter, double setpoint) {
     m_Shooter = shooter;
     this.setpoint = setpoint;
-    m_AnglePIDController = new PIDController(TestMotorConstants.kAngleP, TestMotorConstants.kAngleI, TestMotorConstants.kAngleD);
+    m_AnglePIDController = new PIDController(ShooterConstants.kAngleP, ShooterConstants.kAngleI, ShooterConstants.kAngleD);
     m_AnglePIDController.disableContinuousInput();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Shooter);
