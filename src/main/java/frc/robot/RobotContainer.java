@@ -33,9 +33,7 @@ private final XboxController m_operatorController = new XboxController(1);
 private final Shooter m_Shooter = new Shooter();
 private final Pneumatics m_Pneumatics = new Pneumatics();
 private final Intake m_Intake = new Intake();
-//state checks
-private Boolean bCompressorEnabled = true;
-private Boolean bIntakeToggle = false;
+
 
 private Autos m_autos = new Autos(m_driveSubsystem);  
 private ShuffleboardTab teleopTab = Shuffleboard.getTab("teleOp");

@@ -31,16 +31,21 @@ public class ShooterOpenLoop extends Command {
   @Override
   public void execute() {
      if(speedSupplier.get() <=  ShooterConstants.kShooterMaxSpeed){
-      m_Shooter.getMotor().set(speedSupplier.get());
+      m_Shooter.getMotor()[0].set(speedSupplier.get());
+      m_Shooter.getMotor()[1].set(speedSupplier.get());
+
     } else {
-      m_Shooter.getMotor().set( ShooterConstants.kShooterMaxSpeed);
+      m_Shooter.getMotor()[0].set(ShooterConstants.kShooterMaxSpeed);
+      m_Shooter.getMotor()[1].set(ShooterConstants.kShooterMaxSpeed);
+
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_Shooter.getMotor().set(0);
+      m_Shooter.getMotor()[0].set(0);
+      m_Shooter.getMotor()[1].set(0);
   }
 
   // Returns true when the command should end.

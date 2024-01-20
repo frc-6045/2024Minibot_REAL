@@ -34,7 +34,7 @@ public class Bindings {
             Pneumatics pneumatics, 
             Intake intake){
         
-        new JoystickButton(driverController, XboxController.Button.kStart.value).onTrue(new RunCommand(() -> { driveSubsystem.zeroHeading();}));
+        new JoystickButton(driverController, XboxController.Button.kStart.value).onTrue(new RunCommand(() -> { driveSubsystem.zeroHeading();}, driveSubsystem));
         
         new Trigger(() -> {return operatorController.getRightTriggerAxis() > 0;}).whileTrue(new ShooterOpenLoop(shooter, operatorController::getRightTriggerAxis));
 
@@ -66,16 +66,16 @@ public class Bindings {
         }, intake))
         .onFalse(new InstantCommand(() -> {intake.stopIntake();}, intake));
 
-        // intake toggle
-         new Trigger(() -> {return driverController.getLeftBumperPressed();}).onTrue(new InstantCommand(() -> {
-           if(!bIntakeToggle){
-             intake.runIntakeAtSetSpeed();
-             bIntakeToggle = true;
-           } else {
-            intake.stopIntake();
-             bIntakeToggle = false;
-           }
-         }, intake));
+        // // intake toggle
+        //  new Trigger(() -> {return driverController.getLeftBumperPressed();}).onTrue(new InstantCommand(() -> {
+        //    if(!bIntakeToggle){
+        //      intake.runIntakeAtSetSpeed();
+        //      bIntakeToggle = true;
+        //    } else {
+        //     intake.stopIntake();
+        //      bIntakeToggle = false;
+        //    }
+        //  }, intake));
 
     
 
@@ -83,7 +83,7 @@ public class Bindings {
 
         new Trigger(() -> {return driverController.getLeftTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, () -> {return -driverController.getLeftTriggerAxis();}));
 
-
+        
       } 
 
     
