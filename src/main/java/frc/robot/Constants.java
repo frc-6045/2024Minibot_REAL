@@ -23,7 +23,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
-import pabeles.concurrency.ConcurrencyOps.NewInstance;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -83,7 +82,7 @@ public final class Constants {
 
     // SPARK MAX CAN IDs
     public static final int kFrontLeftDrivingCanId = 1;
-    public static final int kRearLeftDrivingCanId = 3;
+    public static final int kRearLeftDrivingCanId = 30;
     public static final int kFrontRightDrivingCanId = 5;
     public static final int kRearRightDrivingCanId = 7;
 
@@ -233,7 +232,8 @@ public final class Constants {
   
     public static final int kIntakeCANID = 21; 
     public static final int kIndexerCANID = 23;
-    public static final double kIntakeSpeed = .50; 
+    public static final double kIntakeSpeed = 1.0; 
+    public static final double kIndexerSpeed = .5;
   }
 
   

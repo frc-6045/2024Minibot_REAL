@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -24,6 +25,7 @@ public class Bindings {
     private static boolean bCompressorEnabled = true;
     private static boolean bIntakeToggle = false;
     private static boolean bFeederToggle = false;
+
 
     public Bindings() {}
 
@@ -67,23 +69,38 @@ public class Bindings {
         .onFalse(new InstantCommand(() -> {intake.stopIntake();}, intake));
 
         // // intake toggle
-        //  new Trigger(() -> {return driverController.getLeftBumperPressed();}).onTrue(new InstantCommand(() -> {
-        //    if(!bIntakeToggle){
-        //      intake.runIntakeAtSetSpeed();
-        //      bIntakeToggle = true;
-        //    } else {
-        //     intake.stopIntake();
-        //      bIntakeToggle = false;
-        //    }
-        //  }, intake));
+         new Trigger(() -> {return driverController.getLeftBumperPressed();}).onTrue(new InstantCommand(() -> {
+           if(!bIntakeToggle){
+             intake.runIntakeAtSetSpeed();
+             bIntakeToggle = true;
+           } else {
+            intake.stopIntake();
+             bIntakeToggle = false;
+           }
+         }, intake));
 
     
 
-        new Trigger(() -> {return driverController.getRightTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, driverController::getRightTriggerAxis));
+        //  new Trigger(() -> {return driverController.getRightTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, driverController::getRightTriggerAxis));
 
-        new Trigger(() -> {return driverController.getLeftTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, () -> {return -driverController.getLeftTriggerAxis();}));
+        //  new Trigger(() -> {return driverController.getLeftTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, () -> {return -driverController.getLeftTriggerAxis();}));
 
         
+         new Trigger(() -> {return driverController.getRightTriggerAxis() > 0 || driverController.getLeftTriggerAxis() > 0;}).whileTrue(new RunCommand(() -> {
+            intake.testRunMotors(driverController::getRightTriggerAxis, driverController::getLeftTriggerAxis);
+         }, intake)).onFalse(new InstantCommand(() -> {
+            intake.stopIntake();
+         }));
+
+         new Trigger(() -> {return driverController.getPOV() == 90 || driverController.getPOV() == 270;}).whileTrue(new RunCommand(() -> {
+            if(driverController.getPOV() == 90) {
+                intake.testRunMotors(() -> {return -IntakeConstants.kIntakeSpeed;}, () -> {return 0.0;});
+            } else {
+                intake.testRunMotors(() -> {return 0.0;}, () -> {return -IntakeConstants.kIndexerSpeed;});
+            }
+         }, intake)).onFalse(new InstantCommand(() -> {
+            intake.stopIntake();
+         }));
       } 
 
     

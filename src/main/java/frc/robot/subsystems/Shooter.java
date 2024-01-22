@@ -26,8 +26,10 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+
+
   public void runMotors(Supplier<Double> speedSupplier) {
-    m_FeederMotor.set(speedSupplier.get());
+    m_FeederMotor.set(-speedSupplier.get());
     m_ShooterMotor.set(speedSupplier.get());
   }
   public CANSparkFlex[] getMotor(){
