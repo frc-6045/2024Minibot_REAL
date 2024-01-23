@@ -32,6 +32,15 @@ public class Shooter extends SubsystemBase {
     m_FeederMotor.set(-speedSupplier.get());
     m_ShooterMotor.set(speedSupplier.get());
   }
+
+  public CANSparkFlex getShooter() {
+    return m_ShooterMotor;
+  }
+
+  public CANSparkFlex getFeeder() {
+    return m_FeederMotor;
+  }
+
   public CANSparkFlex[] getMotor(){
     CANSparkFlex[] array = {m_ShooterMotor, m_FeederMotor};
     return array;

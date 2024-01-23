@@ -12,7 +12,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.openloop.FeederOpenLoop;
 import frc.robot.commands.openloop.IntakeOpenLoop;
+import frc.robot.commands.openloop.JustShooterOpenLoop;
 import frc.robot.commands.openloop.ShooterOpenLoop;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pneumatics;
@@ -38,12 +41,11 @@ public class Bindings {
         
         new JoystickButton(driverController, XboxController.Button.kStart.value).onTrue(new RunCommand(() -> { driveSubsystem.zeroHeading();}, driveSubsystem));
         
-        new Trigger(() -> {return operatorController.getRightTriggerAxis() > 0;}).whileTrue(new ShooterOpenLoop(shooter, operatorController::getRightTriggerAxis));
+        new Trigger(() -> {return operatorController.getRightTriggerAxis() > 0;}).whileTrue(new JustShooterOpenLoop(shooter, operatorController::getRightTriggerAxis));
 
-
+        new Trigger(() -> {return operatorController.getAButton();}).whileTrue(new FeederOpenLoop(shooter, () -> {return ShooterConstants.kFeederSpeed;}));
         
-        
-
+        new Trigger(() -> {return operatorController.getLeftTriggerAxis() > 0;}).whileTrue(new ShooterOpenLoop(shooter, operatorController::getLeftTriggerAxis));
 
 
         //Compressor Toggle
@@ -59,14 +61,15 @@ public class Bindings {
 
         
         // // B toggle for SingleSolenoid
-        // new Trigger(()-> {return driverController.getBButtonPressed();}).onTrue(new InstantCommand(() -> {
-        // pneumatics.getSolenoid().toggle();
-        // }, pneumatics));
+        
 
         new Trigger(() -> {return driverController.getPOV() == 0;}).onTrue(new InstantCommand(() -> {
-        intake.runIntakeAtSetSpeed();
-        }, intake))
-        .onFalse(new InstantCommand(() -> {intake.stopIntake();}, intake));
+            pneumatics.ActutateIntakeSolenoid(true);
+        }, intake));
+
+           new Trigger(() -> {return driverController.getPOV() == 360;}).onTrue(new InstantCommand(() -> {
+            pneumatics.ActutateIntakeSolenoid(false);
+        }, intake));
 
         // // intake toggle
          new Trigger(() -> {return driverController.getLeftBumperPressed();}).onTrue(new InstantCommand(() -> {
@@ -86,21 +89,21 @@ public class Bindings {
         //  new Trigger(() -> {return driverController.getLeftTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, () -> {return -driverController.getLeftTriggerAxis();}));
 
         
-         new Trigger(() -> {return driverController.getRightTriggerAxis() > 0 || driverController.getLeftTriggerAxis() > 0;}).whileTrue(new RunCommand(() -> {
-            intake.testRunMotors(driverController::getRightTriggerAxis, driverController::getLeftTriggerAxis);
-         }, intake)).onFalse(new InstantCommand(() -> {
-            intake.stopIntake();
-         }));
+        //  new Trigger(() -> {return driverController.getRightTriggerAxis() > 0 || driverController.getLeftTriggerAxis() > 0;}).whileTrue(new RunCommand(() -> {
+        //     intake.testRunMotors(driverController::getRightTriggerAxis, driverController::getLeftTriggerAxis);
+        //  }, intake)).onFalse(new InstantCommand(() -> {
+        //     intake.stopIntake();
+        //  }));
 
-         new Trigger(() -> {return driverController.getPOV() == 90 || driverController.getPOV() == 270;}).whileTrue(new RunCommand(() -> {
-            if(driverController.getPOV() == 90) {
-                intake.testRunMotors(() -> {return -IntakeConstants.kIntakeSpeed;}, () -> {return 0.0;});
-            } else {
-                intake.testRunMotors(() -> {return 0.0;}, () -> {return -IntakeConstants.kIndexerSpeed;});
-            }
-         }, intake)).onFalse(new InstantCommand(() -> {
-            intake.stopIntake();
-         }));
+        //  new Trigger(() -> {return driverController.getPOV() == 90 || driverController.getPOV() == 270;}).whileTrue(new RunCommand(() -> {
+        //     if(driverController.getPOV() == 90) {
+        //         intake.testRunMotors(() -> {return -IntakeConstants.kIntakeSpeed;}, () -> {return 0.0;});
+        //     } else {
+        //         intake.testRunMotors(() -> {return 0.0;}, () -> {return -IntakeConstants.kIndexerSpeed;});
+        //     }
+        //  }, intake)).onFalse(new InstantCommand(() -> {
+        //     intake.stopIntake();
+        //  }));
       } 
 
     
