@@ -15,6 +15,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.FeederConstants;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Shooter;
 
@@ -54,7 +55,8 @@ public class PIDShooter extends Command {
     m_PIDController.setReference(setpoint, ControlType.kVelocity, 0, m_Feedforward.calculate(encoder.getVelocity())); //TODO: characterization for feedforward
     System.out.println("velocity: " + encoder.getVelocity() + "| setpoint: " + setpoint);
     if(setpoint <= encoder.getVelocity()){
-      m_Feeder.getMotor().set(ShooterConstants.kFeederSpeed);
+      m_Feeder.getMotor().set(FeederConstants.kFeederSpeed);
+   
     }
   }
 

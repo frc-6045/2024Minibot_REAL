@@ -7,7 +7,7 @@ package frc.robot.commands.openloop;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.FeederConstants;
 import frc.robot.subsystems.Feeder;
 
 
@@ -29,10 +29,10 @@ public class FeederOpenLoop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(speedSupplier.get() <= ShooterConstants.kFeederSpeed){
+    if(speedSupplier.get() <= FeederConstants.kFeederSpeed){
       m_Feeder.getMotor().set(speedSupplier.get());
     } else {
-      m_Feeder.getMotor().set(ShooterConstants.kFeederSpeed);
+      m_Feeder.getMotor().set(FeederConstants.kFeederSpeed);
     }
   }
 

@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.FeederConstants;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Shooter;
 
@@ -39,10 +40,10 @@ public class ShooterAndFeederOpenLoop extends Command {
       m_Shooter.getMotor().set(ShooterConstants.kShooterMaxSpeed);
     }
 
-    if(feederSpeed.get() <= ShooterConstants.kFeederSpeed){
+    if(feederSpeed.get() <= FeederConstants.kFeederSpeed){
       m_Feeder.getMotor().set(feederSpeed.get());
     } else {
-      m_Feeder.getMotor().set(ShooterConstants.kFeederSpeed);
+      m_Feeder.getMotor().set(FeederConstants.kFeederSpeed);
     }
   }
 

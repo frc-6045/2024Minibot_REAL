@@ -215,13 +215,16 @@ public final class Constants {
 
   }
 
+  public static final class FeederConstants {
+    public static final int kFeederCANID = 22;
+    public static final double kFeederSpeed = 1.00;
+  }
   public static final class ShooterConstants {
     public static final int kShooterMotorCANID = 10;
     public static final double kShooterMaxSpeed = 1.00;
 
-     public static final int kFeederCANID = 22;
-    public static final double kFeederSpeed = 1.00;
-
+    public static final  int kRPMSetpointOffset = 100;
+    
     public static final int kAngleControlCANID = 0; //TODO hey
     public static final double kAngleP = 0.0;
     public static final double kAngleI = 0.0;
