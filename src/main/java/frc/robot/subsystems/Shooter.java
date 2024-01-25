@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.util.function.Supplier;
 
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,10 +16,10 @@ import frc.robot.Constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
   private CANSparkFlex m_ShooterMotor;
-  private CANSparkFlex m_FeederMotor;
+  private RelativeEncoder m_Encoder;
   public Shooter() {
     m_ShooterMotor = new CANSparkFlex(ShooterConstants.kShooterMotorCANID, MotorType.kBrushless);
-    m_FeederMotor = new CANSparkFlex(ShooterConstants.kFeederCANID, MotorType.kBrushless);
+    m_Encoder = m_ShooterMotor.getEncoder(); //TODO: we might want to swap out for the throughbore encoder here
   }
  
   @Override
@@ -29,21 +30,19 @@ public class Shooter extends SubsystemBase {
 
 
   public void runMotors(Supplier<Double> speedSupplier) {
-    m_FeederMotor.set(-speedSupplier.get());
     m_ShooterMotor.set(speedSupplier.get());
   }
 
-  public CANSparkFlex getShooter() {
+  public double getCharacterizationVelocity(){
+    return m_Encoder.getVelocity() * 2 * Math.PI; //rads per sec (also this might break stuff by being rads per sec! guess we will see)
+  }
+
+  public void runCharacterizationVolts(double volts) {
+    m_ShooterMotor.setVoltage(volts);
+  }
+
+  public CANSparkFlex getMotor() {
     return m_ShooterMotor;
   }
 
-  public CANSparkFlex getFeeder() {
-    return m_FeederMotor;
-  }
-
-  public CANSparkFlex[] getMotor(){
-    CANSparkFlex[] array = {m_ShooterMotor, m_FeederMotor};
-    return array;
-    
-  }
 }

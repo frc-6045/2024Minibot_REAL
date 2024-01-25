@@ -13,10 +13,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.closedloop.PIDShooter;
 import frc.robot.commands.openloop.FeederOpenLoop;
 import frc.robot.commands.openloop.IntakeOpenLoop;
-import frc.robot.commands.openloop.JustShooterOpenLoop;
+import frc.robot.commands.openloop.ShooterAndFeederOpenLoop;
 import frc.robot.commands.openloop.ShooterOpenLoop;
+import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.Shooter;
@@ -32,21 +34,25 @@ public class Bindings {
 
     public Bindings() {}
 
-        // TODO: test if this works! it should!
+        
         public static void InitBindings(XboxController driverController, XboxController operatorController, 
             DriveSubsystem driveSubsystem, 
             Shooter shooter,
+            Feeder feeder,
             Pneumatics pneumatics, 
             Intake intake){
         
         new JoystickButton(driverController, XboxController.Button.kStart.value).onTrue(new RunCommand(() -> { driveSubsystem.zeroHeading();}, driveSubsystem));
         
-        new Trigger(() -> {return operatorController.getRightTriggerAxis() > 0;}).whileTrue(new JustShooterOpenLoop(shooter, operatorController::getRightTriggerAxis));
 
-        new Trigger(() -> {return operatorController.getAButton();}).whileTrue(new FeederOpenLoop(shooter, () -> {return ShooterConstants.kFeederSpeed;}));
+
+        //shooter
+        new Trigger(() -> {return operatorController.getAButton();}).whileTrue(new FeederOpenLoop(feeder, () -> {return ShooterConstants.kFeederSpeed;}));
         
         new Trigger(() -> {return operatorController.getLeftTriggerAxis() > 0;}).whileTrue(new ShooterOpenLoop(shooter, operatorController::getLeftTriggerAxis));
 
+        new Trigger(() -> {return operatorController.getRightTriggerAxis() > 0;}).whileTrue(new ShooterAndFeederOpenLoop(shooter, feeder, operatorController::getRightTriggerAxis, operatorController::getRightTriggerAxis));
+        //new Trigger(() -> {return operatorController.getXButton();}).whileTrue(new PIDShooter(shooter, feeder, 6000)); //TODO: EXTREMELY WIP, DO NOT USE YET. setpoint in rpm
 
         //Compressor Toggle
         new Trigger(() -> {return driverController.getRightBumper();}).onTrue(new InstantCommand(() -> {
@@ -62,7 +68,7 @@ public class Bindings {
         
         // // B toggle for SingleSolenoid
         
-
+        //intake solenoids (up is down, down is up! i hate it)
         new Trigger(() -> {return driverController.getPOV() == 0;}).onTrue(new InstantCommand(() -> {
             pneumatics.ActutateIntakeSolenoid(true);
         }, intake));

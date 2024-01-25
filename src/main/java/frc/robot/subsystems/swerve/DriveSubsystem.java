@@ -131,7 +131,11 @@ public class DriveSubsystem extends SubsystemBase {
       this::getChassisSpeeds,
       this::setRobotRelativeSpeeds, 
        AutoConstants.autoBuilderPathConfig,
-       () -> {return false;}, //TODO add getAlliance
+       () -> {var alliance = DriverStation.getAlliance();
+        if(alliance.isPresent()){
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;},
       this);
 
     SmartDashboard.putData("field", m_field);

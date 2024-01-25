@@ -8,17 +8,18 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Feeder;
+
 
 public class FeederOpenLoop extends Command {
   /** Creates a new FeederOpenLoop. */
-  private final Shooter shooter;
+  private Feeder m_Feeder;
   private Supplier<Double> speedSupplier;
-  public FeederOpenLoop(Shooter shooter, Supplier<Double> speedSupplier) {
-    this.shooter = shooter;
+  public FeederOpenLoop(Feeder feeder, Supplier<Double> speedSupplier) {
+    m_Feeder = feeder;
     this.speedSupplier = speedSupplier;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
+    addRequirements(m_Feeder);
   }
 
   // Called when the command is initially scheduled.
@@ -28,17 +29,17 @@ public class FeederOpenLoop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-        if(speedSupplier.get() <=  ShooterConstants.kFeederSpeed){
-      shooter.getMotor()[1].set(speedSupplier.get());
+    if(speedSupplier.get() <= ShooterConstants.kFeederSpeed){
+      m_Feeder.getMotor().set(speedSupplier.get());
     } else {
-      shooter.getMotor()[1].set(ShooterConstants.kFeederSpeed);
+      m_Feeder.getMotor().set(ShooterConstants.kFeederSpeed);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.getMotor()[1].set(0);
+    m_Feeder.getMotor().set(0);
   }
 
   // Returns true when the command should end.
