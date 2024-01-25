@@ -33,7 +33,7 @@ public class PIDShooter extends Command {
     m_Shooter = shooter;
     m_Feeder = feeder;
     shooterMotor = shooter.getMotor();
-    encoder = shooterMotor.getEncoder(Type.kQuadrature, 8192); //TODO check type of encoder
+    encoder = shooterMotor.getEncoder(); //TODO check type of encoder
     this.setpoint = setpoint;
     m_PIDController = shooterMotor.getPIDController();
     m_PIDController.setFeedbackDevice(encoder);

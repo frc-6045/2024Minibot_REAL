@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.util.function.Supplier;
 
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,10 +16,10 @@ import frc.robot.Constants.FeederConstants;
 
 
 public class Feeder extends SubsystemBase {
-  private CANSparkFlex m_FeederMotor; //TODO: is this still a flex????
+  private CANSparkMax m_FeederMotor; //TODO: is this still a flex????
   /** Creates a new Feeder. */
   public Feeder() {
-    m_FeederMotor = new CANSparkFlex(FeederConstants.kFeederCANID, MotorType.kBrushless);
+    m_FeederMotor = new CANSparkMax(FeederConstants.kFeederCANID, MotorType.kBrushless);
   }
 
   @Override
@@ -30,7 +31,7 @@ public class Feeder extends SubsystemBase {
      m_FeederMotor.set(-speedSupplier.get());
   }
   
-  public CANSparkFlex getMotor(){
+  public CANSparkMax getMotor(){
     return m_FeederMotor;
   }
 }
