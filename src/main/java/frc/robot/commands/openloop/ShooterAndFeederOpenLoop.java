@@ -41,9 +41,9 @@ public class ShooterAndFeederOpenLoop extends Command {
     }
 
     if(feederSpeed.get() <= FeederConstants.kFeederSpeed){
-      m_Feeder.getMotor().set(feederSpeed.get());
+      m_Feeder.getMotor().set(-feederSpeed.get());
     } else {
-      m_Feeder.getMotor().set(FeederConstants.kFeederSpeed);
+      m_Feeder.getMotor().set(-FeederConstants.kFeederSpeed);
     }
   }
 

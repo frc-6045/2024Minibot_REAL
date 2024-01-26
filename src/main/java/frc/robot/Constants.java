@@ -56,8 +56,8 @@ public final class Constants {
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
-    kMaxAngularSpeed / 4; // was 4
-    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 2;
+    kMaxAngularSpeed; // was 4
+    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 4; //was 2
 
 
     // Chassis configuration
@@ -168,7 +168,7 @@ public final class Constants {
       DriveConstants.radiusMeters, // Drive base radius in meters. Distance from robot center to furthest module.
       new ReplanningConfig());
 
-    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxSpeedMetersPerSecond = 4.5;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;

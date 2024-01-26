@@ -30,9 +30,9 @@ public class FeederOpenLoop extends Command {
   @Override
   public void execute() {
     if(speedSupplier.get() <= FeederConstants.kFeederSpeed){
-      m_Feeder.getMotor().set(speedSupplier.get());
+      m_Feeder.getMotor().set(-speedSupplier.get());
     } else {
-      m_Feeder.getMotor().set(FeederConstants.kFeederSpeed);
+      m_Feeder.getMotor().set(-FeederConstants.kFeederSpeed);
     }
   }
 

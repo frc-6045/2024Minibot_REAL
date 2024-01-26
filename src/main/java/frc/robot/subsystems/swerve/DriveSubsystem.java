@@ -107,11 +107,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
     public DriveSubsystem() {
-    try {
-      m_visionPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new PhotonCamera("Arducam_OV2311_USB_Camera"), new Transform3d()); //TODO: actually make this work
-    } catch(IOException e){
-      System.out.println(e.getMessage() + "\n april tags didnt load");
-  }
+  //   try {
+  //     m_visionPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new PhotonCamera("Arducam_OV2311_USB_Camera"), new Transform3d()); //TODO: actually make this work
+  //   } catch(IOException e){
+  //     System.out.println(e.getMessage() + "\n april tags didnt load");
+  // }
     this.xLimiter = new SlewRateLimiter(1.8);
     this.yLimiter = new SlewRateLimiter(1.8);
     this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond);
@@ -160,12 +160,12 @@ public class DriveSubsystem extends SubsystemBase {
     updateOdometry();
     
     // TODO: make thing work
-    m_visionPoseEstimator.update().ifPresent(estimatedRobotPose -> {
-      System.out.println(estimatedRobotPose.estimatedPose.toPose2d().toString());
-      m_poseEstimator.addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), estimatedRobotPose.timestampSeconds);
-    });
+    // m_visionPoseEstimator.update().ifPresent(estimatedRobotPose -> {
+    //   System.out.println(estimatedRobotPose.estimatedPose.toPose2d().toString());
+    //   m_poseEstimator.addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), estimatedRobotPose.timestampSeconds);
+    // });
  
-    m_field.setRobotPose(m_poseEstimator.getEstimatedPosition());
+    // m_field.setRobotPose(m_poseEstimator.getEstimatedPosition());
       
    
 
@@ -238,7 +238,7 @@ public class DriveSubsystem extends SubsystemBase {
     // Adjust input based on max speed
     // xSpeed *= 0.5;
     // ySpeed *= 0.5;
-    rot *= 0.3;
+    //rot *= 0.3;
 
 
     xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kMaxSpeedMetersPerSecond;
