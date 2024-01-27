@@ -61,7 +61,7 @@ public RobotContainer() {
     configureBindings();
     teleopTab.addDouble("Right Trigger Axis", m_driverController::getRightTriggerAxis);
     teleopTab.addDouble("Left Trigger Axis", m_driverController::getLeftTriggerAxis);
-    
+    teleopTab.addDouble("Shooter RPM", () -> {return m_Shooter.getMotor().getEncoder().getVelocity();});
   }
 
   private void configureBindings() {

@@ -20,10 +20,10 @@ import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-  private final CANSparkFlex m_IntakeMotor;
+  private final CANSparkMax m_IntakeMotor;
   private final CANSparkMax m_IndexerMotor;
   public Intake() {
-    m_IntakeMotor = new CANSparkFlex(IntakeConstants.kIntakeCANID, MotorType.kBrushless);
+    m_IntakeMotor = new CANSparkMax(IntakeConstants.kIntakeCANID, MotorType.kBrushless);
     //m_Pneumatics.ActutateIntakeSolenoid();
     m_IndexerMotor = new CANSparkMax(IntakeConstants.kIndexerCANID, MotorType.kBrushless);
     m_IntakeMotor.restoreFactoryDefaults();
