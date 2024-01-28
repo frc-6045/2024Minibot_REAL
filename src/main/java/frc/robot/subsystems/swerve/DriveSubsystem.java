@@ -260,32 +260,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
 
-  //Turbo Spin
-  public void Kachow(double xSpeed, double ySpeed, double rot, boolean fieldRelative) 
-  {
-    // Adjust input based on max speed
-    // xSpeed *= 0.5;
-    // ySpeed *= 0.5;
-    rot *= 0.8;
-
-
-    xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kMaxSpeedMetersPerSecond;
-    ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kMaxSpeedMetersPerSecond;
-    rot = turningLimiter.calculate(rot) * DriveConstants.kMaxAngularSpeed;
-    double m_HeadingDegrees = getPose().getRotation().getDegrees();
-
-    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(m_HeadingDegrees)) //TODO: changed getHeadingDegrees()
-            : new ChassisSpeeds(xSpeed, ySpeed, rot));
-    SwerveDriveKinematics.desaturateWheelSpeeds(
-        swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    m_frontRight.setDesiredState(swerveModuleStates[1]);
-    m_rearLeft.setDesiredState(swerveModuleStates[2]);
-    m_rearRight.setDesiredState(swerveModuleStates[3]);
-    
-  }
 
 
 
