@@ -49,11 +49,11 @@ public class Bindings {
 
 
         //shooter
-        new Trigger(() -> {return operatorController.getAButton();}).whileTrue(new FeederOpenLoop(feeder, () -> {return FeederConstants.kFeederSpeed;}));
+        //new Trigger(() -> {return operatorController.getAButton();}).whileTrue(new FeederOpenLoop(feeder, () -> {return FeederConstants.kFeederSpeed;}));
         
-        new Trigger(() -> {return operatorController.getLeftTriggerAxis() > 0;}).whileTrue(new ShooterOpenLoop(shooter, operatorController::getLeftTriggerAxis));
+        //new Trigger(() -> {return operatorController.getLeftTriggerAxis() > 0;}).whileTrue(new ShooterOpenLoop(shooter, operatorController::getLeftTriggerAxis));
 
-        new Trigger(() -> {return operatorController.getRightTriggerAxis() > 0;}).whileTrue(new ShooterAndFeederOpenLoop(shooter, feeder, operatorController::getRightTriggerAxis, operatorController::getRightTriggerAxis));
+        //new Trigger(() -> {return operatorController.getRightTriggerAxis() > 0;}).whileTrue(new ShooterAndFeederOpenLoop(shooter, feeder, operatorController::getRightTriggerAxis, operatorController::getRightTriggerAxis));
         
         new Trigger(() -> {return operatorController.getXButton();}).whileTrue(new PIDShooter(shooter, feeder,intake, 5400)); //TODO: EXTREMELY WIP, DO NOT USE YET. setpoint in rpm
 
@@ -72,16 +72,16 @@ public class Bindings {
         // // B toggle for SingleSolenoid
         
         //intake solenoids (up is down, down is up! i hate it)
-        new Trigger(() -> {return driverController.getPOV() == 0;}).onTrue(new InstantCommand(() -> {
-            pneumatics.ActutateIntakeSolenoid(true);
-        }, intake));
-
-           new Trigger(() -> {return driverController.getPOV() == 360;}).onTrue(new InstantCommand(() -> {
+        new Trigger(() -> {return operatorController.getPOV() == 0;}).onTrue(new InstantCommand(() -> {
             pneumatics.ActutateIntakeSolenoid(false);
         }, intake));
 
+           new Trigger(() -> {return operatorController.getPOV() == 180;}).onTrue(new InstantCommand(() -> {
+            pneumatics.ActutateIntakeSolenoid(true);
+        }, intake));
+
         // // intake toggle
-         new Trigger(() -> {return driverController.getLeftBumperPressed();}).onTrue(new InstantCommand(() -> {
+         new Trigger(() -> {return operatorController.getLeftBumperPressed();}).onTrue(new InstantCommand(() -> {
            if(!bIntakeToggle){
              intake.runIntakeAtSetSpeed();
              bIntakeToggle = true;
@@ -93,9 +93,9 @@ public class Bindings {
 
     
 
-         new Trigger(() -> {return driverController.getRightTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, driverController::getRightTriggerAxis));
+         new Trigger(() -> {return operatorController.getRightTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, operatorController::getRightTriggerAxis));
 
-         new Trigger(() -> {return driverController.getLeftTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, () -> {return -driverController.getLeftTriggerAxis();}));
+         new Trigger(() -> {return operatorController.getLeftTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, () -> {return -operatorController.getLeftTriggerAxis();}));
 
         
         //  new Trigger(() -> {return driverController.getRightTriggerAxis() > 0 || driverController.getLeftTriggerAxis() > 0;}).whileTrue(new RunCommand(() -> {
