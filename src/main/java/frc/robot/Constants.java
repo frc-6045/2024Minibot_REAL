@@ -126,7 +126,7 @@ public final class Constants {
     public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
     public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
 
-    public static final double kDrivingP = 0.3; //was 0.07
+    public static final double kDrivingP = 0.8; //was 0.07
     public static final double kDrivingI = 0;
     public static final double kDrivingD = 0;
     public static final double kDrivingFF = 0; 
@@ -225,10 +225,10 @@ public final class Constants {
 
     public static final  int kRPMSetpointOffset = 100;
     
-    public static final double kShooterP = .1;
+    public static final double kShooterP = .5;
     public static final double kShooterI = 0;
     public static final double kShooterD = 0;
-
+    public static final int kShooterLaunchRPM = 5000;
 
     public static final int kAngleControlCANID = 0; //TODO hey
     public static final double kAngleP = 0.0;

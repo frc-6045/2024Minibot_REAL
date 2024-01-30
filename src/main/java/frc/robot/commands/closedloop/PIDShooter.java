@@ -43,9 +43,9 @@ public class PIDShooter extends Command {
   
     
     m_PIDController = shooterMotor.getPIDController();
-    m_PIDController.setP(ShooterConstants.kAngleP);
-    m_PIDController.setI(ShooterConstants.kAngleI);
-    m_PIDController.setD(ShooterConstants.kAngleD);
+    m_PIDController.setP(ShooterConstants.kShooterP);
+    m_PIDController.setI(ShooterConstants.kShooterI);
+    m_PIDController.setD(ShooterConstants.kShooterD);
     m_PIDController.setIZone(0);
     m_PIDController.setFF(.0001);
     m_PIDController.setOutputRange(-1, 1);
@@ -72,11 +72,12 @@ public class PIDShooter extends Command {
     m_PIDController.setReference(setpoint, ControlType.kVelocity, 0, m_Feedforward.calculate(setpoint)); //TODO: characterization for feedforward
 
    System.out.println(encoder.getVelocity());
-    if(encoder.getVelocity() >= 3800){
-      m_Feeder.getMotor().set(-FeederConstants.kFeederSpeed);
+    if(encoder.getVelocity() >= ShooterConstants.kShooterLaunchRPM){
+      m_Feeder.getMotor().set(-FeederConstants.kFeederSpeed);               
       m_Intake.runIntake(() -> {return IntakeConstants.kIntakeSpeed;});
     }
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
