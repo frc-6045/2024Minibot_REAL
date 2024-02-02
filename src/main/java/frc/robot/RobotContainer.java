@@ -37,7 +37,7 @@ private final Pneumatics m_Pneumatics = new Pneumatics();
 private final Intake m_Intake = new Intake();
 
 
-private Autos m_autos = new Autos(m_driveSubsystem, m_Shooter);  
+private Autos m_autos = new Autos(m_driveSubsystem, m_Feeder, m_Intake, m_Pneumatics, m_Shooter);  
 private ShuffleboardTab teleopTab = Shuffleboard.getTab("teleOp");
 public RobotContainer() {
     m_Pneumatics.setDefaultCommand(new RunCommand(() -> {

@@ -160,7 +160,8 @@ public final class Constants {
   }
   public static final class AutoConstants {
 
-
+    //literally copy pasted from pathplanner docs, isaac im so disapointed in u
+    //TODO: likely going to have to revisit these pid constants
     public static final HolonomicPathFollowerConfig autoBuilderPathConfig = new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
       new PIDConstants(5.0, 0.0 ,0.2), //original p = 5, 1st attempt: p = 5, d = 0.5, 2nd attempt: p= 5, d = 0.5, 3rd attempt: p = 5, d = 3 this caused the wheels to shutter
       new PIDConstants(1.5, 0.0, 0), //5.0, 0, 0.2
