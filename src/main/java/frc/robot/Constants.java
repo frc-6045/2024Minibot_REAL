@@ -42,6 +42,7 @@ public final class Constants {
     public static double kLowSpeakerOpeningHeight = 1.98;  //meters
     public static double kHighSpeakerOpeningHeight = 2.11;  //meters
     public static double kHighSpeakerOpeningDistanceFromWall = .46; //meters
+    
     public static Pose2d kSpeakerBackLocation = new Pose2d(0.0, 5.525, new Rotation2d(0.0));
     public static Pose2d kSpeakerFrontLoation = new Pose2d(kHighSpeakerOpeningDistanceFromWall, 5.525, new Rotation2d(0.0));
 
@@ -93,6 +94,11 @@ public final class Constants {
 
     public static final boolean kGyroReversed = false;
     //change
+    public static final double kTurningAngleP = 0;
+    public static final double kTurningAngleI = 0;
+    public static final double kTurningAngleD = 0;
+
+
   }
 
   public static final class ModuleConstants {
@@ -232,9 +238,10 @@ public final class Constants {
     public static final int kShooterLaunchRPM = 5000;
 
     public static final int kAngleControlCANID = 0; //TODO hey
-    public static final double kAngleP = 0.0;
-    public static final double kAngleI = 0.0;
-    public static final double kAngleD = 0.0;
+    public static final double kShooterAngleP = 0.0;
+    public static final double kShooterAngleI = 0.0;
+    public static final double kShooterAngleD = 0.0;
+
   }
 
   public static final class IntakeConstants {

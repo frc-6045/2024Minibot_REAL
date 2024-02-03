@@ -44,7 +44,9 @@ import frc.robot.Constants;
 
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.util.LookupTables;
 import frc.robot.util.PoseMath;
+import frc.robot.util.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -105,15 +107,10 @@ public class DriveSubsystem extends SubsystemBase {
             private boolean isCharacterizing = false;
             private double characterizationVolts = 0.0;
 
-         private PhotonPoseEstimator m_visionPoseEstimator;
-    private double visionAngle;
+      private Vision vision;
+
   /** Creates a new DriveSubsystem. */
     public DriveSubsystem() {
-    try {
-      m_visionPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new PhotonCamera("Arducam_OV2311_USB_Camera"), new Transform3d()); //TODO: actually make this work
-    } catch(IOException e){
-      System.out.println(e.getMessage() + "\n april tags didnt load");
-    }
     this.xLimiter = new SlewRateLimiter(1.8);
     this.yLimiter = new SlewRateLimiter(1.8);
     this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond);
@@ -141,7 +138,7 @@ public class DriveSubsystem extends SubsystemBase {
       this);
 
     SmartDashboard.putData("field", m_field);
-    visionAngle = 0;
+    vision = new Vision(this);
   }
 
   @Override
@@ -161,18 +158,10 @@ public class DriveSubsystem extends SubsystemBase {
     //eventually figure out what each result value is
 
     updateOdometry();
+    vision.UpdateVision();
     
-    // TODO: make thing work
-    m_visionPoseEstimator.update().ifPresent(estimatedRobotPose -> {
-      System.out.println(estimatedRobotPose.estimatedPose.toPose2d().toString());
-      m_poseEstimator.addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), estimatedRobotPose.timestampSeconds);
-      SmartDashboard.putNumber("estimated dist", PoseMath.getDistanceToSpeakerBack(estimatedRobotPose.estimatedPose.toPose2d()));
-      //SmartDashboard.putNumber("Estimated Angle", PoseMath.FindShootingAngle(estimatedRobotPose.estimatedPose.toPose2d())); //enhnngg
-      visionAngle = estimatedRobotPose.estimatedPose.getRotation().getAngle();
-      m_field.setRobotPose(estimatedRobotPose.estimatedPose.toPose2d());
-    });
-    SmartDashboard.putNumber("Estimated Angle", PoseMath.FindShootingAngle(getPose())); //enhnngg
 
+    
     
      
       
@@ -487,11 +476,11 @@ public double getCharacterizationVelocity() {
 
 }
 
-public double getVisionAngle() {
-  return visionAngle;
+
+
+
+public SwerveDrivePoseEstimator getPoseEstimator(){
+  return m_poseEstimator;
 }
-
-
-
   
 }

@@ -18,7 +18,8 @@ public class PIDAngleControl extends Command {
   public PIDAngleControl(Shooter shooter, double setpoint) {
     m_Shooter = shooter;
     this.setpoint = setpoint;
-    m_AnglePIDController = new PIDController(ShooterConstants.kAngleP, ShooterConstants.kAngleI, ShooterConstants.kAngleD);
+    m_AnglePIDController = new PIDController(ShooterConstants.kShooterAngleP, ShooterConstants.kShooterAngleI, ShooterConstants.kShooterAngleD);
+    m_AnglePIDController.setTolerance(.1); //who care
     m_AnglePIDController.disableContinuousInput();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Shooter);
@@ -32,14 +33,14 @@ public class PIDAngleControl extends Command {
   @Override
   public void execute() {
     double feedforward = 0.0; // just to have TODO: maybe do characterization??
-    //double speed = m_AnglePIDController.calculate(m_Shooter.getAngleEncoder().getPosition(), setpoint);
-    //m_Shooter.getAngleMotor().set(speed);
+    double speed = m_AnglePIDController.calculate(m_Shooter.getAngleEncoder().getPosition(), setpoint);
+    m_Shooter.getAngleMotor().set(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //m_Shooter.getAngleMotor().set(0);
+    m_Shooter.getAngleMotor().set(0);
   }
 
   // Returns true when the command should end.
