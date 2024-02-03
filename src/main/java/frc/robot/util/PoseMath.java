@@ -1,6 +1,7 @@
 package frc.robot.util;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Constants.FieldConstants;
 
@@ -31,7 +32,17 @@ public class PoseMath {
         return angle;
     }
 
+    public static Rotation2d getTargetAngle(Translation2d point, Pose2d currentPose){
+        Rotation2d targetAngle = new Rotation2d(point.getX() - currentPose.getX(), point.getY() - currentPose.getY());
+        return targetAngle;
+    }
+
+
+
+
     public static double getDistanceToSpeakerBack(Pose2d pose) {
         return pose.getTranslation().getDistance(FieldConstants.kSpeakerBackLocation.getTranslation());
     }
+
+
 }

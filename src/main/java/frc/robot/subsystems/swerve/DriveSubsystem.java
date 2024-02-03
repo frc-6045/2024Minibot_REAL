@@ -160,8 +160,9 @@ public class DriveSubsystem extends SubsystemBase {
     updateOdometry();
     vision.UpdateVision();
     
+    SmartDashboard.putNumber("drive angle", getPose().getRotation().getDegrees());
+    m_field.setRobotPose(getPose());
 
-    
     
      
       

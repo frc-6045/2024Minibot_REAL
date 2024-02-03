@@ -60,7 +60,7 @@ public class Bindings {
         
         new Trigger(() -> {return operatorController.getXButton();}).whileTrue(new PIDShooter(shooter, feeder, intake, 6000));
 
-        new Trigger(() -> {return operatorController.getBackButtonPressed();}).onTrue(new PIDAngleControl(shooter, LookupTables.getAngleValueAtDistance(0)));
+        //new Trigger(() -> {return operatorController.getBackButtonPressed();}).onTrue(new PIDAngleControl(shooter, LookupTables.getAngleValueAtDistance(0)));
 
         //Compressor Toggle
         new Trigger(() -> {return driverController.getRightBumper();}).onTrue(new InstantCommand(() -> {
