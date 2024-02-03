@@ -6,9 +6,11 @@ package frc.robot.subsystems;
 
 import java.util.function.Supplier;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,15 +19,21 @@ import frc.robot.Constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
   private CANSparkFlex m_ShooterMotor;
+  private CANSparkFlex m_AngleMotor;
+
   private RelativeEncoder m_Encoder;
+  private AbsoluteEncoder m_AngleEncoder;
+
   private ShuffleboardTab teleopTab;
   public Shooter() {
     m_ShooterMotor = new CANSparkFlex(ShooterConstants.kShooterMotorCANID, MotorType.kBrushless);
+    m_AngleMotor = new CANSparkFlex(ShooterConstants.kAngleControlCANID, MotorType.kBrushless);
     m_Encoder = m_ShooterMotor.getEncoder(); //TODO: we might want to swap out for the throughbore encoder here
-  
+    m_AngleEncoder = m_AngleMotor.getAbsoluteEncoder(Type.kDutyCycle);
     
   }
  
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -50,4 +58,11 @@ public class Shooter extends SubsystemBase {
     return m_ShooterMotor;
   }
 
+  public CANSparkFlex getAngleMotor() {
+    return m_AngleMotor;
+  }
+
+  public AbsoluteEncoder getAngleEncoder() {
+    return m_AngleEncoder;
+  }
 }
