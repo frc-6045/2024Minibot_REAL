@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.FeederConstants;
 
-//testing just to make sure I don't mess anything up
+
 public class Feeder extends SubsystemBase {
   private CANSparkMax m_FeederMotor; 
   /** Creates a new Feeder. */

@@ -42,7 +42,7 @@ public final class Constants {
     public static double kLowSpeakerOpeningHeight = 1.98;  //meters
     public static double kHighSpeakerOpeningHeight = 2.11;  //meters
     public static double kHighSpeakerOpeningDistanceFromWall = .46; //meters
-    
+
     public static Pose2d kSpeakerBackLocation = new Pose2d(0.0, 5.525, new Rotation2d(0.0));
     public static Pose2d kSpeakerFrontLoation = new Pose2d(kHighSpeakerOpeningDistanceFromWall, 5.525, new Rotation2d(0.0));
 
@@ -81,7 +81,7 @@ public final class Constants {
     public static final double kBackLeftChassisAngularOffset = Math.PI;
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
-    // SPARK MAX CAN IDs
+    // SPARK FLEX CAN IDs
     public static final int kFrontLeftDrivingCanId = 1;
     public static final int kRearLeftDrivingCanId = 3;
     public static final int kFrontRightDrivingCanId = 5;
@@ -237,7 +237,9 @@ public final class Constants {
     public static final double kShooterD = 0;
     public static final int kShooterLaunchRPM = 5000;
 
-    public static final int kAngleControlCANID = 0; //TODO hey
+    public static final int kAngleControlCANID = 11; //TODO hey
+    public static final double kAngleControlMaxSpeed = 0.05;
+
     public static final double kShooterAngleP = 0.0;
     public static final double kShooterAngleI = 0.0;
     public static final double kShooterAngleD = 0.0;
@@ -252,6 +254,10 @@ public final class Constants {
     public static final double kIndexerSpeed = .5;
   }
 
+  public static final class ClimbConstants {
+    public static final int kLeftClimbMotorCanId = 13;
+    public static final int kRightClimbMotorCanId = 14;
+  }
   
   public static final class PneumaticsConstants {
     public static final int kPneumaticsModuleCANID = 20; 

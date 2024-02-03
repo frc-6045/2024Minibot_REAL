@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.subsystems.AngleController;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.swerve.DriveSubsystem;
 import frc.robot.util.PoseMath;
@@ -18,14 +19,16 @@ public class AutoAim extends Command {
   private final DriveSubsystem m_Drive;
   private final Shooter m_Shooter;
   private final Vision m_Vision;
+  private final AngleController m_AngleController;
   private PIDController m_ShooterAngleController;
   private PIDController m_TurningAngleController;
   private double shooterAngle;
   private double turningAngle;
-  public AutoAim(DriveSubsystem drive, Shooter shooter, Vision vision) {
+  public AutoAim(DriveSubsystem drive, Shooter shooter, Vision vision, AngleController angleController) {
     m_Drive = drive;
     m_Shooter = shooter;
     m_Vision = vision;
+    m_AngleController = angleController;
     m_ShooterAngleController = new PIDController(DriveConstants.kTurningAngleP, DriveConstants.kTurningAngleI,DriveConstants.kTurningAngleD);
     m_TurningAngleController = new PIDController(ShooterConstants.kShooterAngleP, ShooterConstants.kShooterAngleI, ShooterConstants.kShooterAngleD);
 
@@ -49,10 +52,10 @@ public class AutoAim extends Command {
     double shooterAngleSpeed;
     double turningAngleSpeed;
 
-    shooterAngleSpeed = m_ShooterAngleController.calculate(m_Shooter.getAngleEncoder().getPosition(), shooterAngle);
+    shooterAngleSpeed = m_ShooterAngleController.calculate(m_AngleController.getAngleEncoder().getPosition(), shooterAngle);
     turningAngleSpeed = m_TurningAngleController.calculate(m_Vision.getVisionPose().getRotation().getDegrees(), turningAngle);
 
-    m_Shooter.getAngleMotor().set(shooterAngleSpeed);
+    m_AngleController.getAngleMotor().set(shooterAngleSpeed);
     m_Drive.drive(0, 0, turningAngleSpeed, true);
   }
 

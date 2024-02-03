@@ -17,10 +17,12 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.closedloop.AimAtSpeaker;
 import frc.robot.commands.closedloop.PIDAngleControl;
 import frc.robot.commands.closedloop.PIDShooter;
+import frc.robot.commands.openloop.AngleOpenLoop;
 import frc.robot.commands.openloop.FeederOpenLoop;
 import frc.robot.commands.openloop.IntakeOpenLoop;
 import frc.robot.commands.openloop.ShooterAndFeederOpenLoop;
 import frc.robot.commands.openloop.ShooterOpenLoop;
+import frc.robot.subsystems.AngleController;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pneumatics;
@@ -46,6 +48,7 @@ public class Bindings {
             Shooter shooter,
             Feeder feeder,
             Pneumatics pneumatics, 
+            AngleController angleController,
             Intake intake){
         
         new JoystickButton(driverController, XboxController.Button.kStart.value).onTrue(new InstantCommand(() -> { driveSubsystem.zeroHeading();}, driveSubsystem));
@@ -62,6 +65,11 @@ public class Bindings {
         new Trigger(() -> {return operatorController.getXButton();}).whileTrue(new PIDShooter(shooter, feeder, intake, 6000));
 
         //new Trigger(() -> {return operatorController.getBackButtonPressed();}).onTrue(new PIDAngleControl(shooter, LookupTables.getAngleValueAtDistance(0)));
+        
+        //Angle Controller
+        new Trigger(() -> {return driverController.getPOV() == 0;}).whileTrue(new AngleOpenLoop(angleController, ShooterConstants.kAngleControlMaxSpeed));
+
+        new Trigger(() -> {return driverController.getPOV() == 270;}).whileTrue(new AngleOpenLoop(angleController, -ShooterConstants.kAngleControlMaxSpeed));
 
         //Compressor Toggle
         new Trigger(() -> {return driverController.getRightBumper();}).onTrue(new InstantCommand(() -> {

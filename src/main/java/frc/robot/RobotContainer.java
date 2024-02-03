@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.subsystems.AngleController;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pneumatics;
@@ -35,6 +36,7 @@ private final Shooter m_Shooter = new Shooter();
 private final Feeder m_Feeder = new Feeder();
 private final Pneumatics m_Pneumatics = new Pneumatics();
 private final Intake m_Intake = new Intake();
+private final AngleController m_AngleController = new AngleController();
 
 
 private Autos m_autos = new Autos(m_driveSubsystem, m_Feeder, m_Intake, m_Pneumatics, m_Shooter);  
@@ -65,7 +67,7 @@ public RobotContainer() {
   }
 
   private void configureBindings() {
-    Bindings.InitBindings(m_driverController, m_operatorController, m_driveSubsystem, m_Shooter, m_Feeder, m_Pneumatics, m_Intake);
+    Bindings.InitBindings(m_driverController, m_operatorController, m_driveSubsystem, m_Shooter, m_Feeder, m_Pneumatics, m_AngleController, m_Intake);
   }
 
   public Command getAutonomousCommand() {
