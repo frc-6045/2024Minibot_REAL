@@ -165,9 +165,13 @@ public class DriveSubsystem extends SubsystemBase {
     m_visionPoseEstimator.update().ifPresent(estimatedRobotPose -> {
       System.out.println(estimatedRobotPose.estimatedPose.toPose2d().toString());
       m_poseEstimator.addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), estimatedRobotPose.timestampSeconds);
-      SmartDashboard.putNumber("Estimated Angle", PoseMath.FindShootingAngle(estimatedRobotPose.estimatedPose.toPose2d())); //enhnngg
+      SmartDashboard.putNumber("estimated dist", PoseMath.getDistanceToSpeakerBack(estimatedRobotPose.estimatedPose.toPose2d()));
+      //SmartDashboard.putNumber("Estimated Angle", PoseMath.FindShootingAngle(estimatedRobotPose.estimatedPose.toPose2d())); //enhnngg
       m_field.setRobotPose(estimatedRobotPose.estimatedPose.toPose2d());
     });
+    SmartDashboard.putNumber("Estimated Angle", PoseMath.FindShootingAngle(getPose())); //enhnngg
+
+    
      
       
    

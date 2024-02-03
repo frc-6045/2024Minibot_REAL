@@ -18,4 +18,8 @@ public class PoseMath {
         System.out.println("shooting angle: " + angle);
         return angle;
     }
+
+    public static double getDistanceToSpeakerBack(Pose2d pose) {
+        return pose.getTranslation().getDistance(FieldConstants.kSpeakerBackLocation.getTranslation());
+    }
 }
