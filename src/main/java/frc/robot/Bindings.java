@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.FeederConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.closedloop.AimAtSpeaker;
 import frc.robot.commands.closedloop.PIDAngleControl;
 import frc.robot.commands.closedloop.PIDShooter;
 import frc.robot.commands.openloop.FeederOpenLoop;
@@ -49,7 +50,7 @@ public class Bindings {
         
         new JoystickButton(driverController, XboxController.Button.kStart.value).onTrue(new InstantCommand(() -> { driveSubsystem.zeroHeading();}, driveSubsystem));
         
-            
+        new Trigger(() -> {return driverController.getYButtonPressed();}).onTrue(new AimAtSpeaker(driveSubsystem));
 
         //shooter
         //new Trigger(() -> {return operatorController.getAButton();}).whileTrue(new FeederOpenLoop(feeder, () -> {return FeederConstants.kFeederSpeed;}));

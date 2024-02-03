@@ -22,8 +22,8 @@ public class AimAtSpeaker extends Command {
     m_drive = drive;
     setpointAngle = 0;
     currentPose = new Pose2d();
-    m_AimPIDController = new PIDController(0, 0, 0);
-    m_AimPIDController.setTolerance(0.1);
+    m_AimPIDController = new PIDController(.01, 0, 0);
+    m_AimPIDController.setTolerance(0.01);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);
@@ -34,6 +34,7 @@ public class AimAtSpeaker extends Command {
   public void initialize() {
     currentPose = m_drive.getPose();
     setpointAngle = PoseMath.getTargetAngle(FieldConstants.kSpeakerBackLocation.getTranslation(), currentPose).getDegrees(); //FIXME: needs to work on red alliance 
+   
   }
 
   // Called every time the scheduler runs while the command is scheduled.

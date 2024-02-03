@@ -44,6 +44,7 @@ import frc.robot.Constants;
 
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.util.LookupTables;
 import frc.robot.util.PoseMath;
 import frc.robot.util.Vision;
@@ -160,7 +161,8 @@ public class DriveSubsystem extends SubsystemBase {
     updateOdometry();
     vision.UpdateVision();
     
-    SmartDashboard.putNumber("drive angle", getPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("drive angle", getPoseHeading());
+    SmartDashboard.putNumber("target angle", PoseMath.getTargetAngle(FieldConstants.kSpeakerBackLocation.getTranslation(), getPose()).getDegrees());
     m_field.setRobotPose(getPose());
 
     
