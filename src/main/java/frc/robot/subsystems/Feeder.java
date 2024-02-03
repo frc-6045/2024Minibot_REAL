@@ -16,7 +16,7 @@ import frc.robot.Constants.FeederConstants;
 
 
 public class Feeder extends SubsystemBase {
-  private CANSparkMax m_FeederMotor; //TODO: is this still a flex????
+  private CANSparkMax m_FeederMotor; 
   /** Creates a new Feeder. */
   public Feeder() {
     m_FeederMotor = new CANSparkMax(FeederConstants.kFeederCANID, MotorType.kBrushless);

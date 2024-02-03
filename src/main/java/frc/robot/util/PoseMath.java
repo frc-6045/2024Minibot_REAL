@@ -4,8 +4,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Constants.FieldConstants;
 
+//FIXME: this rn will only work with blue alliance, needs updating for red alliance
 public class PoseMath {
-    public static double FindShootingAngle(Pose2d pose){ //TODO: test
+    public static double FindShootingAngle(Pose2d pose){ 
         double angle;
         System.out.println(pose.getTranslation());
         double distanceToSpeakerBack = pose.getTranslation().getDistance(FieldConstants.kSpeakerBackLocation.getTranslation());
@@ -16,6 +17,14 @@ public class PoseMath {
         System.out.println(angleToBackLow + " " +  angleToFrontHigh);
         angle = (angleToBackLow + angleToFrontHigh) / 2;
         System.out.println("shooting angle: " + angle);
+        return angle;
+    }
+
+    public static double FindTurningAngle(Pose2d pose){
+        double angle;
+        double x = FieldConstants.kSpeakerBackLocation.getX() - pose.getX();
+        double y = FieldConstants.kSpeakerBackLocation.getY() - pose.getY();
+        angle = Math.atan(x/y);
         return angle;
     }
 

@@ -106,7 +106,7 @@ public class DriveSubsystem extends SubsystemBase {
             private double characterizationVolts = 0.0;
 
          private PhotonPoseEstimator m_visionPoseEstimator;
-
+    private double visionAngle;
   /** Creates a new DriveSubsystem. */
     public DriveSubsystem() {
     try {
@@ -141,6 +141,7 @@ public class DriveSubsystem extends SubsystemBase {
       this);
 
     SmartDashboard.putData("field", m_field);
+    visionAngle = 0;
   }
 
   @Override
@@ -167,6 +168,7 @@ public class DriveSubsystem extends SubsystemBase {
       m_poseEstimator.addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), estimatedRobotPose.timestampSeconds);
       SmartDashboard.putNumber("estimated dist", PoseMath.getDistanceToSpeakerBack(estimatedRobotPose.estimatedPose.toPose2d()));
       //SmartDashboard.putNumber("Estimated Angle", PoseMath.FindShootingAngle(estimatedRobotPose.estimatedPose.toPose2d())); //enhnngg
+      visionAngle = estimatedRobotPose.estimatedPose.getRotation().getAngle();
       m_field.setRobotPose(estimatedRobotPose.estimatedPose.toPose2d());
     });
     SmartDashboard.putNumber("Estimated Angle", PoseMath.FindShootingAngle(getPose())); //enhnngg
@@ -485,7 +487,9 @@ public double getCharacterizationVelocity() {
 
 }
 
-
+public double getVisionAngle() {
+  return visionAngle;
+}
 
 
 
