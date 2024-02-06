@@ -200,12 +200,12 @@ public class MAXSwerveModule {
 
 public void runCharacterization(double volts, double offset){ 
   //reminder, this is different in AdvantageKit
- m_turningPIDController.setReference(offset, ControlType.kPosition);
+  m_turningPIDController.setReference(offset, ControlType.kPosition);
   setDriveVoltage(volts);
 }
 public double getCharacterizationVelocity(){
   return m_drivingEncoder.getVelocity() * 2 * Math.PI; // rads per sec 
- }
+}
 
 
 }

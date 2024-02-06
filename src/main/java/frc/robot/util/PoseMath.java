@@ -26,9 +26,9 @@ public class PoseMath {
         double x = FieldConstants.kSpeakerBackLocation.getX() - pose.getX();
         double y = FieldConstants.kSpeakerBackLocation.getY() - pose.getY();
         angle = Math.toDegrees(-Math.atan2(x, y));
-        if(angle < 0){
-            angle = -angle + 180;
-        }
+        // if(angle < 0){
+        //     angle = -angle + 180;
+        // }
         return angle;
     }
 
