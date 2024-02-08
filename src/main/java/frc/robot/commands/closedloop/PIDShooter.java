@@ -72,9 +72,9 @@ public class PIDShooter extends Command {
     m_PIDController.setReference(setpoint, ControlType.kVelocity, 0, m_Feedforward.calculate(setpoint)); //TODO: characterization for feedforward
 
    System.out.println(encoder.getVelocity());
-    if(encoder.getVelocity() >= ShooterConstants.kShooterLaunchRPM){
-      m_Feeder.getMotor().set(-FeederConstants.kFeederSpeed);               
-      m_Intake.runIntake(() -> {return IntakeConstants.kIntakeSpeed;});
+    if(encoder.getVelocity() <= -ShooterConstants.kShooterLaunchRPM){
+      m_Feeder.getMotor().set(FeederConstants.kFeederSpeed);               
+      m_Intake.runIntake(() -> {return -IntakeConstants.kIntakeSpeed;});
     }
   }
 

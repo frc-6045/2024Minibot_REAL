@@ -62,11 +62,11 @@ public final class Constants {
 
 
     // Chassis configuration
-    public static final double kTrackWidth = Units.inchesToMeters(22.875); //22.5 //TODO: find all of this
+    public static final double kTrackWidth = Units.inchesToMeters(24.9375); //22.5 //TODO: find all of this
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = Units.inchesToMeters(26.5); // 26.7
+    public static final double kWheelBase = Units.inchesToMeters(24.9375); // 26.7
     // Distance between front and back wheels on robot
-    public static final double radiusMeters = Units.inchesToMeters(19.5); ///.8879 meters preconverted before
+    public static final double radiusMeters = Units.inchesToMeters(17.625); ///.8879 meters preconverted before
     //the distance from the center of the robot to the furthest swerve module
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -132,7 +132,7 @@ public final class Constants {
     public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
     public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
 
-    public static final double kDrivingP = 0.8; //was 0.07
+    public static final double kDrivingP = 0.1; //was 0.8
     public static final double kDrivingI = 0;
     public static final double kDrivingD = 0;
     public static final double kDrivingFF = 0; 
@@ -147,7 +147,7 @@ public final class Constants {
     // public static final double kDrivingMinOutput = -1;
     // public static final double kDrivingMaxOutput = 1;
 
-    public static final double kTurningP = 01; //SPOOKY '0' SCARYYYYYYYYYYYYYYYY AHHHHHHHH
+    public static final double kTurningP = .9; //rip spooky 0
     public static final double kTurningI = 0;
     public static final double kTurningD = 0;
     public static final double kTurningFF = -0.00; //FIXME: changed feed forward from 0
@@ -235,7 +235,7 @@ public final class Constants {
     public static final double kShooterP = .5;
     public static final double kShooterI = 0;
     public static final double kShooterD = 0;
-    public static final int kShooterLaunchRPM = 5000;
+    public static final int kShooterLaunchRPM = 4300;
 
     public static final int kAngleControlCANID = 11; //TODO hey
     public static final double kAngleControlMaxSpeed = 0.05;
