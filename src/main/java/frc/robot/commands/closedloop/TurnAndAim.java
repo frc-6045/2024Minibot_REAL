@@ -20,6 +20,6 @@ public class TurnAndAim extends ParallelCommandGroup {
     m_drive = drive;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new PIDAngleControl(m_angleController, 0), new AimAtSpeaker(m_drive));
+    addCommands(new PIDAngleControl(m_angleController, m_drive), new AimAtSpeaker(m_drive));
   }
 }

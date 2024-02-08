@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.AngleController;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.swerve.DriveSubsystem;
+import frc.robot.util.LookupTables;
+import frc.robot.util.Vision;
 
 
 public class PIDAngleControl extends Command {
@@ -17,12 +20,14 @@ public class PIDAngleControl extends Command {
   private final AngleController m_AngleController;
   private final PIDController m_AnglePIDController;
   private double setpoint;
-  public PIDAngleControl(AngleController angleController, double setpoint) {
+  private Vision vision;
+  public PIDAngleControl(AngleController angleController, DriveSubsystem drive) {
     m_AngleController = angleController;
-    this.setpoint = setpoint;
+    setpoint = 0;
     m_AnglePIDController = new PIDController(ShooterConstants.kShooterAngleP, ShooterConstants.kShooterAngleI, ShooterConstants.kShooterAngleD);
     m_AnglePIDController.setTolerance(.1); //who care
     m_AnglePIDController.disableContinuousInput();
+    vision = new Vision(drive);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_AngleController);
   }
@@ -31,6 +36,7 @@ public class PIDAngleControl extends Command {
   @Override
   public void initialize() {
     System.out.println("PID angel controll scheduled 8)");
+    setpoint = LookupTables.getAngleTable().get(vision.getDistance());
   }
 
 
@@ -51,7 +57,6 @@ public class PIDAngleControl extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
-    //return m_AnglePIDController.atSetpoint();
+    return m_AnglePIDController.atSetpoint();
   }
 }

@@ -62,7 +62,7 @@ public class Bindings {
 
         new Trigger(() -> {return operatorController.getRightTriggerAxis() > 0;}).whileTrue(new ShooterAndFeederOpenLoop(shooter, feeder, operatorController::getRightTriggerAxis, operatorController::getRightTriggerAxis));
         
-        new Trigger(() -> {return operatorController.getXButton();}).whileTrue(new PIDShooter(shooter, feeder, intake, -6000));
+        //new Trigger(() -> {return operatorController.getXButton();}).whileTrue(new PIDShooter(shooter, feeder, intake, -6000));
 
         //new Trigger(() -> {return operatorController.getBackButtonPressed();}).onTrue(new PIDAngleControl(shooter, LookupTables.getAngleValueAtDistance(0)));
         

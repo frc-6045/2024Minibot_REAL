@@ -48,4 +48,8 @@ public class Vision {
   public Pose2d getVisionPose() {
     return visionPose;
   }
+
+  public double getDistance(){
+    return PoseMath.getDistanceToSpeakerBack(visionPose);
+  }
 }

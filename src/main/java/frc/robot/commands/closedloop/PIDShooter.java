@@ -20,6 +20,9 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.swerve.DriveSubsystem;
+import frc.robot.util.LookupTables;
+import frc.robot.util.Vision;
 
 public class PIDShooter extends Command {
   /** Creates a new PIDShooter. */
@@ -33,13 +36,15 @@ public class PIDShooter extends Command {
   private final RelativeEncoder encoder;
   private double setpoint;
   private boolean atSetpoint;
-  public PIDShooter(Shooter shooter, Feeder feeder, Intake intake, double setpoint) {
+  private Vision vision;
+  public PIDShooter(Shooter shooter, Feeder feeder, Intake intake, DriveSubsystem drive) {
     m_Shooter = shooter;
     m_Feeder = feeder;
     m_Intake = intake;
     shooterMotor = shooter.getMotor();
     encoder = shooterMotor.getEncoder(); //TODO check type of encoder
-    this.setpoint = setpoint;
+    vision = new Vision(drive);
+    setpoint = 0;
   
     
     m_PIDController = shooterMotor.getPIDController();
@@ -61,6 +66,7 @@ public class PIDShooter extends Command {
   @Override
   public void initialize() {
     atSetpoint = false;
+    setpoint = LookupTables.getSpeedTable().get(vision.getDistance()); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
