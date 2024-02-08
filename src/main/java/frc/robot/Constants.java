@@ -240,7 +240,7 @@ public final class Constants {
     public static final int kAngleControlCANID = 11; //TODO hey
     public static final double kAngleControlMaxSpeed = 0.05;
 
-    public static final double kShooterAngleP = 0.0;
+    public static final double kShooterAngleP = 0.0; //start out really fn low
     public static final double kShooterAngleI = 0.0;
     public static final double kShooterAngleD = 0.0;
 
