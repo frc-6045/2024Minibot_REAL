@@ -13,18 +13,18 @@ import frc.robot.subsystems.Shooter;
 
 public class PIDAngleControl extends Command {
   /** Creates a new PIDAngleControl. */
-  private Shooter m_Shooter;
-  private AngleController m_AngleController;
+
+  private final AngleController m_AngleController;
   private final PIDController m_AnglePIDController;
   private double setpoint;
-  public PIDAngleControl(Shooter shooter, double setpoint) {
-    m_Shooter = shooter;
+  public PIDAngleControl(AngleController angleController, double setpoint) {
+    m_AngleController = angleController;
     this.setpoint = setpoint;
     m_AnglePIDController = new PIDController(ShooterConstants.kShooterAngleP, ShooterConstants.kShooterAngleI, ShooterConstants.kShooterAngleD);
     m_AnglePIDController.setTolerance(.1); //who care
     m_AnglePIDController.disableContinuousInput();
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_Shooter);
+    addRequirements(m_AngleController);
   }
 
   // Called when the command is initially scheduled.
@@ -48,7 +48,7 @@ public class PIDAngleControl extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
-    return m_AnglePIDController.atSetpoint();
+    return false;
+    //return m_AnglePIDController.atSetpoint();
   }
 }
