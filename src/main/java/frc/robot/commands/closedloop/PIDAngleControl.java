@@ -29,7 +29,10 @@ public class PIDAngleControl extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println("PID angel controll scheduled 8)");
+  }
+
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
