@@ -86,14 +86,14 @@ public class DriveSubsystem extends SubsystemBase {
       private final SwerveDrivePoseEstimator m_poseEstimator =
       new SwerveDrivePoseEstimator(
           DriveConstants.kDriveKinematics,
-          Rotation2d.fromDegrees(getHeadingDegrees()),
+          Rotation2d.fromDegrees(getHeadingDegrees() ),
           new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
           },
-          new Pose2d(0, 0, new Rotation2d(0)), //
+          new Pose2d(0, 0, new Rotation2d(0)), 
           VecBuilder.fill(0.85, 0.85, Units.degreesToRadians(0.5)), // initiial was 0.05 for both on top and 0.5 for bottom, 0.05, 0.05, 0.65
           VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(60))); // 0.5, 0.5, 50 
 //0.15, 0.15, 0.5          .75, 0.75, 60
@@ -118,8 +118,8 @@ public class DriveSubsystem extends SubsystemBase {
     m_VisionLockController.setSetpoint(0);
 
 
-     m_gyro.setAngleAdjustment(-1);   
-
+     m_gyro.setAngleAdjustment(45);   
+    
     zeroHeading();
    
     
@@ -163,6 +163,7 @@ public class DriveSubsystem extends SubsystemBase {
     
     SmartDashboard.putNumber("drive angle", getPoseHeading());
     SmartDashboard.putNumber("target angle", PoseMath.getTargetAngle(FieldConstants.kSpeakerBackLocation.getTranslation(), getPose()).getDegrees());
+    SmartDashboard.putNumber("shooter angle number", LookupTables.getAngleValueAtDistance(PoseMath.getDistanceToSpeakerBack(getPose())));
     m_field.setRobotPose(getPose());
 
     

@@ -22,8 +22,8 @@ public class AimAtSpeaker extends Command {
     m_drive = drive;
     setpointAngle = 0;
     currentPose = new Pose2d();
-    m_AimPIDController = new PIDController(.01, 0, 0);
-    m_AimPIDController.setTolerance(0.01);
+    m_AimPIDController = new PIDController(.03, 0, 0);
+    m_AimPIDController.setTolerance(2);
     m_AimPIDController.enableContinuousInput(-180,180);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);

@@ -6,34 +6,46 @@ package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
 public class AngleController extends SubsystemBase {
   /** Creates a new AngleController. */
   private CANSparkFlex m_AngleMotor;
-
+  private DigitalInput m_limitSwitch;
   private AbsoluteEncoder m_AngleEncoder;
+  private RelativeEncoder m_RelativeEncoder;
 
   public AngleController() {
     m_AngleMotor = new CANSparkFlex(ShooterConstants.kAngleControlCANID, MotorType.kBrushless);
-    m_AngleEncoder = m_AngleMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    //m_AngleEncoder = m_AngleMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    m_RelativeEncoder = m_AngleMotor.getEncoder();
+    m_limitSwitch = new DigitalInput(0);
   }
+
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    SmartDashboard.putNumber("hood angle", m_RelativeEncoder.getPosition());
   }
 
   public CANSparkFlex getAngleMotor() {
     return m_AngleMotor;
   }
 
-  public AbsoluteEncoder getAngleEncoder() {
-    return m_AngleEncoder;
+  public RelativeEncoder getAngleEncoder() {
+    //return m_AngleEncoder;
+    return m_RelativeEncoder;
+  }
+
+  public DigitalInput getLimitSwitch(){
+    return m_limitSwitch;
   }
 }

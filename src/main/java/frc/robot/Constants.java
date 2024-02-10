@@ -132,7 +132,7 @@ public final class Constants {
     public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
     public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
 
-    public static final double kDrivingP = 0.1; //was 0.8
+    public static final double kDrivingP = 0.25; //was 0.8
     public static final double kDrivingI = 0;
     public static final double kDrivingD = 0;
     public static final double kDrivingFF = 0; 
@@ -225,6 +225,7 @@ public final class Constants {
   public static final class FeederConstants {
     public static final int kFeederCANID = 22;
     public static final double kFeederSpeed = 1.00;
+    public static final double kFeederAmpSpeed = 0.50;
   }
   public static final class ShooterConstants {
     public static final int kShooterMotorCANID = 10;
@@ -235,14 +236,18 @@ public final class Constants {
     public static final double kShooterP = .5;
     public static final double kShooterI = 0;
     public static final double kShooterD = 0;
+    public static final double kShooterAmpP = .3;
+    public static final double kShooterAmpI = 0;
+    public static final double kShooterAmpD = 0;
     public static final int kShooterLaunchRPM = 4300;
+    public static final int kShooterAmpLaunchRPM = 2000;
 
     public static final int kAngleControlCANID = 11; //TODO hey
-    public static final double kAngleControlMaxSpeed = 0.05;
+    public static final double kAngleControlMaxSpeed = 0.12;
 
-    public static final double kShooterAngleP = 0.0001; //start out really fn low
+    public static final double kShooterAngleP = 0.06; //start out really fn low
     public static final double kShooterAngleI = 0.0;
-    public static final double kShooterAngleD = 0.0;
+    public static final double kShooterAngleD = 0.00;
 
   }
 
@@ -252,6 +257,7 @@ public final class Constants {
     public static final int kIndexerCANID = 23;
     public static final double kIntakeSpeed = 1.0; 
     public static final double kIndexerSpeed = .5;
+    public static final double kIntakeAmpSpeed = 0.5; 
   }
 
   public static final class ClimbConstants {

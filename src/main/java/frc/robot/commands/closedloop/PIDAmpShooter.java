@@ -13,7 +13,6 @@ import com.revrobotics.SparkRelativeEncoder.Type;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.FeederConstants;
@@ -22,7 +21,7 @@ import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-public class PIDShooter extends Command {
+public class PIDAmpShooter extends Command {
   /** Creates a new PIDShooter. */
   private final Shooter m_Shooter;
   private final Feeder m_Feeder;
@@ -34,17 +33,19 @@ public class PIDShooter extends Command {
   private final RelativeEncoder encoder;
   private double setpoint;
   private boolean atSetpoint;
-  public PIDShooter(Shooter shooter, Feeder feeder, Intake intake, double setpoint) {
+  public PIDAmpShooter(Shooter shooter, Feeder feeder, Intake intake, double setpoint) {
     m_Shooter = shooter;
     m_Feeder = feeder;
     m_Intake = intake;
     shooterMotor = shooter.getMotor();
     encoder = shooterMotor.getEncoder(); //TODO check type of encoder
     this.setpoint = setpoint;
+  
+    
     m_PIDController = shooterMotor.getPIDController();
-    m_PIDController.setP(ShooterConstants.kShooterP);
-    m_PIDController.setI(ShooterConstants.kShooterI);
-    m_PIDController.setD(ShooterConstants.kShooterD);
+    m_PIDController.setP(ShooterConstants.kShooterAmpP);
+    m_PIDController.setI(ShooterConstants.kShooterAmpI);
+    m_PIDController.setD(ShooterConstants.kShooterAmpD);
     m_PIDController.setIZone(0);
     m_PIDController.setFF(.0001);
     m_PIDController.setOutputRange(-1, 1);
@@ -52,7 +53,6 @@ public class PIDShooter extends Command {
     m_PIDController.setFeedbackDevice(encoder);
     m_Feedforward = new SimpleMotorFeedforward(.17674,.00030); //TODO characterization
     atSetpoint = false;
-    
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Shooter, m_Feeder, m_Intake);
   }
@@ -72,9 +72,9 @@ public class PIDShooter extends Command {
     m_PIDController.setReference(setpoint, ControlType.kVelocity, 0, m_Feedforward.calculate(setpoint)); //TODO: characterization for feedforward
 
    System.out.println(encoder.getVelocity());
-    if(encoder.getVelocity() <= -ShooterConstants.kShooterLaunchRPM){
-      m_Feeder.getMotor().set(FeederConstants.kFeederSpeed);               
-      m_Intake.runIntake(() -> {return -IntakeConstants.kIntakeSpeed;});
+    if(encoder.getVelocity() <= -ShooterConstants.kShooterAmpLaunchRPM){
+      m_Feeder.getMotor().set(FeederConstants.kFeederAmpSpeed);               
+      m_Intake.runIntake(() -> {return -IntakeConstants.kIntakeAmpSpeed;});
     }
   }
 

@@ -24,7 +24,7 @@ import com.revrobotics.RelativeEncoder;
 import frc.robot.Constants.ModuleConstants;
 
 public class MAXSwerveModule {
-  private final CANSparkMax m_drivingSparkMax;
+  private final CANSparkFlex m_drivingSparkMax;
   private final CANSparkMax m_turningSparkMax;
 
   private final RelativeEncoder m_drivingEncoder;
@@ -45,7 +45,7 @@ public class MAXSwerveModule {
    * Encoder.
    */
   public MAXSwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset) {
-    m_drivingSparkMax = new CANSparkMax(drivingCANId, MotorType.kBrushless);
+    m_drivingSparkMax = new CANSparkFlex(drivingCANId, MotorType.kBrushless);
     m_turningSparkMax = new CANSparkMax(turningCANId, MotorType.kBrushless);
 
     // Factory reset, so we get the SPARKS MAX to a known state before configuring
@@ -118,7 +118,7 @@ public class MAXSwerveModule {
     m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
     m_drivingEncoder.setPosition(0);
 
-    m_SimpleMotorFeedforward = new SimpleMotorFeedforward(0.181144, .402968); //ks: 0.13115 kv: .40199'
+    m_SimpleMotorFeedforward = new SimpleMotorFeedforward(0.1555825, .336085); //ks: 0.13115 kv: .40199'
     
 
 

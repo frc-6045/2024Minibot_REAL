@@ -29,6 +29,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.swerve.DriveSubsystem;
+import frc.robot.util.LookupTables;
 
 public class RobotContainer {
 private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
@@ -54,15 +55,15 @@ public RobotContainer() {
 
     m_driveSubsystem.setDefaultCommand(
     new RunCommand(
-            () -> m_driveSubsystem.drive(
+            () -> m_driveSubsystem.drive( //FIXME: very very stupid bodge
                 MathUtil.applyDeadband(-m_driverController.getLeftY(), 0.15),
                 MathUtil.applyDeadband(-m_driverController.getLeftX(), 0.15),
                 MathUtil.applyDeadband(-m_driverController.getRightX(), 0.20),
                 true),
             m_driveSubsystem));
-    m_AngleController.setDefaultCommand(
-      new PIDAngleControl(m_AngleController, m_AngleController.getAngleEncoder().getPosition())
-    );
+    // m_AngleController.setDefaultCommand(
+    //   new PIDAngleControl(m_AngleController, m_AngleController.getAngleEncoder().getPosition())
+    // );
 
     
 
@@ -71,6 +72,7 @@ public RobotContainer() {
     teleopTab.addDouble("Right Trigger Axis", m_driverController::getRightTriggerAxis);
     teleopTab.addDouble("Left Trigger Axis", m_driverController::getLeftTriggerAxis);
     teleopTab.addDouble("Shooter RPM", () -> {return m_Shooter.getMotor().getEncoder().getVelocity();});
+    teleopTab.addDouble("hood position", () -> {return m_AngleController.getAngleEncoder().getPosition();});
   }
 
   private void configureBindings() {

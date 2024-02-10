@@ -4,6 +4,8 @@
 
 package frc.robot.commands.closedloop;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
@@ -16,10 +18,12 @@ public class PIDAngleControl extends Command {
 
   private final AngleController m_AngleController;
   private final PIDController m_AnglePIDController;
-  private double setpoint;
-  public PIDAngleControl(AngleController angleController, double setpoint) {
+  private Supplier<Double> setpoint;
+  private double actualSetpoint;
+  public PIDAngleControl(AngleController angleController, Supplier<Double> setpoint) {
     m_AngleController = angleController;
     this.setpoint = setpoint;
+    System.out.println("first setpoint : " + setpoint.get());
     m_AnglePIDController = new PIDController(ShooterConstants.kShooterAngleP, ShooterConstants.kShooterAngleI, ShooterConstants.kShooterAngleD);
     m_AnglePIDController.setTolerance(.1); //who care
     m_AnglePIDController.disableContinuousInput();
@@ -31,6 +35,8 @@ public class PIDAngleControl extends Command {
   @Override
   public void initialize() {
     System.out.println("PID angel controll scheduled 8)");
+    System.out.println("setpoint : " + setpoint.get());
+    actualSetpoint = setpoint.get();
   }
 
 
@@ -38,7 +44,8 @@ public class PIDAngleControl extends Command {
   @Override
   public void execute() {
     double feedforward = 0.0; // just to have TODO: maybe do characterization??
-    double speed = m_AnglePIDController.calculate(m_AngleController.getAngleEncoder().getPosition(), setpoint);
+   
+    double speed = m_AnglePIDController.calculate(m_AngleController.getAngleEncoder().getPosition(), setpoint.get());
     m_AngleController.getAngleMotor().set(speed);
   }
 
@@ -51,7 +58,7 @@ public class PIDAngleControl extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
-    //return m_AnglePIDController.atSetpoint();
+    //return false;
+    return m_AnglePIDController.atSetpoint();
   }
 }

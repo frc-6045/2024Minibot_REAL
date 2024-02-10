@@ -29,6 +29,6 @@ public class OneButtonShooting extends SequentialCommandGroup {
     m_intake = intake;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new TurnAndAim(m_angleController, m_drive), new PIDShooter(m_shooter, m_feeder, m_intake, 2));
+    addCommands(new TurnAndAim(m_angleController, m_drive), new PIDShooter(m_shooter, m_feeder, m_intake, -6000));
   }
 }

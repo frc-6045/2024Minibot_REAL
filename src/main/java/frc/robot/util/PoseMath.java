@@ -35,9 +35,9 @@ public class PoseMath {
     public static Rotation2d getTargetAngle(Translation2d point, Pose2d currentPose){
         
         Rotation2d targetAngle = new Rotation2d(point.getX() - currentPose.getX(), point.getY() - currentPose.getY());
-        if(currentPose.getRotation().getDegrees() < 0){
-            return targetAngle.minus(targetAngle.times(2));
-        }
+        // if(currentPose.getRotation().getDegrees() < 0){
+        //     return targetAngle.minus(targetAngle.times(2));
+        // }
         return targetAngle;
     }
 

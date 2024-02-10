@@ -15,8 +15,11 @@ import frc.robot.Constants.FeederConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.closedloop.AimAtSpeaker;
+import frc.robot.commands.closedloop.OneButtonShooting;
 import frc.robot.commands.closedloop.PIDAngleControl;
 import frc.robot.commands.closedloop.PIDShooter;
+import frc.robot.commands.closedloop.TurnAndAim;
+import frc.robot.commands.closedloop.PIDAmpShooter;
 import frc.robot.commands.openloop.AngleOpenLoop;
 import frc.robot.commands.openloop.FeederOpenLoop;
 import frc.robot.commands.openloop.IntakeOpenLoop;
@@ -29,6 +32,7 @@ import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.swerve.DriveSubsystem;
 import frc.robot.util.LookupTables;
+import frc.robot.util.PoseMath;
 
 /** Add your docs here. */
 // Henry's Comment
@@ -60,16 +64,20 @@ public class Bindings {
         
         //new Trigger(() -> {return operatorController.getLeftTriggerAxis() > 0;}).whileTrue(new ShooterOpenLoop(shooter, operatorController::getLeftTriggerAxis));
 
-        new Trigger(() -> {return operatorController.getRightTriggerAxis() > 0;}).whileTrue(new ShooterAndFeederOpenLoop(shooter, feeder, operatorController::getRightTriggerAxis, operatorController::getRightTriggerAxis));
+        //new Trigger(() -> {return operatorController.getRightTriggerAxis() > 0;}).whileTrue(new ShooterAndFeederOpenLoop(shooter, feeder, operatorController::getRightTriggerAxis, operatorController::getRightTriggerAxis));
         
         new Trigger(() -> {return operatorController.getXButton();}).whileTrue(new PIDShooter(shooter, feeder, intake, -6000));
 
-        //new Trigger(() -> {return operatorController.getBackButtonPressed();}).onTrue(new PIDAngleControl(shooter, LookupTables.getAngleValueAtDistance(0)));
+        new Trigger(() -> {return operatorController.getYButton();}).whileTrue(new PIDAmpShooter(shooter, feeder, intake, -3000));
+
+        //new Trigger(() -> {return driverController.getBackButtonPressed();}).onTrue(new TurnAndAim(angleController, driveSubsystem));
+
+        new Trigger(() -> {return driverController.getBackButtonPressed();}).onTrue(new PIDAngleControl(angleController,() -> {return LookupTables.getAngleValueAtDistance(PoseMath.getDistanceToSpeakerBack(driveSubsystem.getPose()));})); //3.9624 works
         
         //Angle Controller
-        new Trigger(() -> {return driverController.getBButton();}).whileTrue(new AngleOpenLoop(angleController, ShooterConstants.kAngleControlMaxSpeed));
+        new Trigger(() -> {return driverController.getBButton();}).whileTrue(new AngleOpenLoop(angleController, ShooterConstants.kAngleControlMaxSpeed));//.onFalse(new PIDAngleControl(angleController, angleController.getAngleEncoder().getPosition()));;
 
-        new Trigger(() -> {return driverController.getAButton();}).whileTrue(new AngleOpenLoop(angleController, -ShooterConstants.kAngleControlMaxSpeed));
+        new Trigger(() -> {return driverController.getAButton();}).whileTrue(new AngleOpenLoop(angleController, -ShooterConstants.kAngleControlMaxSpeed));//.onFalse(new PIDAngleControl(angleController, angleController.getAngleEncoder().getPosition()));;
 
         //Compressor Toggle
         new Trigger(() -> {return driverController.getRightBumper();}).onTrue(new InstantCommand(() -> {
@@ -107,7 +115,7 @@ public class Bindings {
 
     
 
-         //new Trigger(() -> {return operatorController.getRightTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, operatorController::getRightTriggerAxis));
+         new Trigger(() -> {return operatorController.getRightTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, operatorController::getRightTriggerAxis));
 
          new Trigger(() -> {return operatorController.getLeftTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, () -> {return -operatorController.getLeftTriggerAxis();}));
 
