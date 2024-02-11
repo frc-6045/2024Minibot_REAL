@@ -35,7 +35,6 @@ public class AngleOpenLoop extends Command {
   @Override
   public void end(boolean interrupted) {
     m_AngleController.getAngleMotor().set(0);
-    //new ScheduleCommand(new PIDAngleControl(m_AngleController, m_AngleController.getAngleEncoder().getPosition()));
   }
 
   // Returns true when the command should end.

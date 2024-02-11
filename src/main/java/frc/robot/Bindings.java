@@ -15,6 +15,7 @@ import frc.robot.Constants.FeederConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.closedloop.AimAtSpeaker;
+import frc.robot.commands.closedloop.HoldAngle;
 import frc.robot.commands.closedloop.OneButtonShooting;
 import frc.robot.commands.closedloop.PIDAngleControl;
 import frc.robot.commands.closedloop.PIDShooter;
@@ -75,9 +76,9 @@ public class Bindings {
         new Trigger(() -> {return driverController.getBackButtonPressed();}).onTrue(new PIDAngleControl(angleController,() -> {return LookupTables.getAngleValueAtDistance(PoseMath.getDistanceToSpeakerBack(driveSubsystem.getPose()));})); //3.9624 works
         
         //Angle Controller
-        new Trigger(() -> {return driverController.getBButton();}).whileTrue(new AngleOpenLoop(angleController, ShooterConstants.kAngleControlMaxSpeed));//.onFalse(new PIDAngleControl(angleController, angleController.getAngleEncoder().getPosition()));;
+        new Trigger(() -> {return driverController.getBButton();}).whileTrue(new AngleOpenLoop(angleController, ShooterConstants.kAngleControlMaxSpeed)).onFalse(new HoldAngle(angleController, () -> {return angleController.getAngleEncoder().getPosition();}));
 
-        new Trigger(() -> {return driverController.getAButton();}).whileTrue(new AngleOpenLoop(angleController, -ShooterConstants.kAngleControlMaxSpeed));//.onFalse(new PIDAngleControl(angleController, angleController.getAngleEncoder().getPosition()));;
+        new Trigger(() -> {return driverController.getAButton();}).whileTrue(new AngleOpenLoop(angleController, -ShooterConstants.kAngleControlMaxSpeed)).onFalse(new HoldAngle(angleController, () -> {return angleController.getAngleEncoder().getPosition();}));
 
         //Compressor Toggle
         new Trigger(() -> {return driverController.getRightBumper();}).onTrue(new InstantCommand(() -> {
