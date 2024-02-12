@@ -5,6 +5,10 @@
 package frc.robot.commands.closedloop;
 
 
+import java.lang.reflect.Field;
+
+import org.photonvision.PhotonUtils;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -40,7 +44,8 @@ public class AimAtSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turnSpeed = m_AimPIDController.calculate(m_drive.getPoseHeading(), setpointAngle);
+    //double turnSpeed = m_AimPIDController.calculate(m_drive.getPoseHeading(), setpointAngle);
+    double turnSpeed = m_AimPIDController.calculate(PhotonUtils.getYawToPose(m_drive.getPose(), FieldConstants.kSpeakerBackLocation).getDegrees(), 0);
     m_drive.drive(0, 0, turnSpeed, true);
   }
 
