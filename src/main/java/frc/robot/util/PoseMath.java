@@ -1,5 +1,7 @@
 package frc.robot.util;
 
+import org.photonvision.PhotonUtils;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -32,12 +34,13 @@ public class PoseMath {
         return angle;
     }
 
-    public static Rotation2d getTargetAngle(Translation2d point, Pose2d currentPose){
-        
-        Rotation2d targetAngle = new Rotation2d(point.getX() - currentPose.getX(), point.getY() - currentPose.getY());
+    public static Rotation2d getTargetAngle(Pose2d point, Pose2d currentPose){
+        Rotation2d targetAngle;
+        //Rotation2d targetAngle = new Rotation2d(point.getX() - currentPose.getX(), point.getY() - currentPose.getY());
         // if(currentPose.getRotation().getDegrees() < 0){
         //     return targetAngle.minus(targetAngle.times(2));
         // }
+        targetAngle = PhotonUtils.getYawToPose(currentPose, point);
         return targetAngle;
     }
 

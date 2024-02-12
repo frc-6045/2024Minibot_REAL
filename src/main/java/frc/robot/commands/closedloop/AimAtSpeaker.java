@@ -33,7 +33,7 @@ public class AimAtSpeaker extends Command {
   @Override
   public void initialize() {
     currentPose = m_drive.getPose();
-    setpointAngle = PoseMath.getTargetAngle(FieldConstants.kSpeakerBackLocation.getTranslation(), currentPose).getDegrees(); //FIXME: needs to work on red alliance 
+    setpointAngle = PoseMath.getTargetAngle(FieldConstants.kSpeakerBackLocation, currentPose).getDegrees(); //FIXME: needs to work on red alliance 
    
   }
 

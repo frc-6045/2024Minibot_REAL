@@ -15,7 +15,7 @@ import frc.robot.util.Vision;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TurnAndAim extends SequentialCommandGroup {
+public class TurnAndAim extends ParallelCommandGroup {
   /** Creates a new TurnAndAim. */
   private final AngleController m_angleController;
   private final DriveSubsystem m_drive;

@@ -162,7 +162,7 @@ public class DriveSubsystem extends SubsystemBase {
     vision.UpdateVision();
     
     SmartDashboard.putNumber("drive angle", getPoseHeading());
-    SmartDashboard.putNumber("target angle", PoseMath.getTargetAngle(FieldConstants.kSpeakerBackLocation.getTranslation(), getPose()).getDegrees());
+    SmartDashboard.putNumber("target angle", PoseMath.getTargetAngle(FieldConstants.kSpeakerBackLocation, getPose()).getDegrees());
     SmartDashboard.putNumber("shooter angle number", LookupTables.getAngleValueAtDistance(PoseMath.getDistanceToSpeakerBack(getPose())));
     m_field.setRobotPose(getPose());
 
