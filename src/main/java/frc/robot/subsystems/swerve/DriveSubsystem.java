@@ -118,7 +118,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_VisionLockController.setSetpoint(0);
 
 
-     m_gyro.setAngleAdjustment(45);   
+     m_gyro.setAngleAdjustment(-1);   
     
     zeroHeading();
    

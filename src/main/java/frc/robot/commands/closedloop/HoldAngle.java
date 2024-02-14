@@ -34,7 +34,7 @@ public class HoldAngle extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("PID angel controll scheduled 8)");
+    System.out.println("hold angl scheduled 8)");
     System.out.println("setpoint : " + setpoint.get());
     actualSetpoint = setpoint.get();
   }
@@ -45,7 +45,7 @@ public class HoldAngle extends Command {
   public void execute() {
     double feedforward = 0.0; // just to have TODO: maybe do characterization??
    
-    double speed = m_AnglePIDController.calculate(m_AngleController.getAngleEncoder().getPosition(), setpoint.get());
+    double speed = m_AnglePIDController.calculate(m_AngleController.getAngleEncoder().getPosition(), actualSetpoint);
     m_AngleController.getAngleMotor().set(speed);
   }
 

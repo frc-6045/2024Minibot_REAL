@@ -52,6 +52,7 @@ public class PIDAngleControl extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("pidanglecontrol is finished");
     m_AngleController.getAngleMotor().set(0);
   }
 

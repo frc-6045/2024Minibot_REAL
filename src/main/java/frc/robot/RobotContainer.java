@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.commands.closedloop.PIDAngleControl;
 import frc.robot.subsystems.AngleController;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pneumatics;
@@ -39,6 +40,7 @@ private final Shooter m_Shooter = new Shooter();
 private final Feeder m_Feeder = new Feeder();
 private final Pneumatics m_Pneumatics = new Pneumatics();
 private final Intake m_Intake = new Intake();
+private final Climber m_Climber = new Climber();
 private final AngleController m_AngleController = new AngleController();
 
 
@@ -76,7 +78,11 @@ public RobotContainer() {
   }
 
   private void configureBindings() {
-    Bindings.InitBindings(m_driverController, m_operatorController, m_driveSubsystem, m_Shooter, m_Feeder, m_Pneumatics, m_AngleController, m_Intake);
+    Bindings.InitBindings(m_driverController, m_operatorController, 
+    m_driveSubsystem, m_Shooter, 
+    m_Feeder, m_Pneumatics, 
+    m_AngleController, m_Intake, 
+    m_Climber);
   }
 
   public Command getAutonomousCommand() {

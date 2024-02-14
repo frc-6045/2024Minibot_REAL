@@ -6,11 +6,13 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.FeederConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShooterConstants;
@@ -22,11 +24,13 @@ import frc.robot.commands.closedloop.PIDShooter;
 import frc.robot.commands.closedloop.TurnAndAim;
 import frc.robot.commands.closedloop.PIDAmpShooter;
 import frc.robot.commands.openloop.AngleOpenLoop;
+import frc.robot.commands.openloop.ClimberOpenLoop;
 import frc.robot.commands.openloop.FeederOpenLoop;
 import frc.robot.commands.openloop.IntakeOpenLoop;
 import frc.robot.commands.openloop.ShooterAndFeederOpenLoop;
 import frc.robot.commands.openloop.ShooterOpenLoop;
 import frc.robot.subsystems.AngleController;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pneumatics;
@@ -54,7 +58,8 @@ public class Bindings {
             Feeder feeder,
             Pneumatics pneumatics, 
             AngleController angleController,
-            Intake intake){
+            Intake intake,
+            Climber climber){
         
         new JoystickButton(driverController, XboxController.Button.kStart.value).onTrue(new InstantCommand(() -> { driveSubsystem.zeroHeading();}, driveSubsystem));
         
@@ -69,11 +74,14 @@ public class Bindings {
         
         new Trigger(() -> {return operatorController.getXButton();}).whileTrue(new PIDShooter(shooter, feeder, intake, -6000));
 
-        new Trigger(() -> {return operatorController.getYButton();}).whileTrue(new PIDAmpShooter(shooter, feeder, intake, -3000));
+        new Trigger(() -> {return operatorController.getYButton();}).whileTrue(new PIDAmpShooter(shooter, feeder, intake, -1300));
 
         //new Trigger(() -> {return driverController.getBackButtonPressed();}).onTrue(new TurnAndAim(angleController, driveSubsystem));
 
         new Trigger(() -> {return driverController.getBackButtonPressed();}).onTrue(new PIDAngleControl(angleController,() -> {return LookupTables.getAngleValueAtDistance(PoseMath.getDistanceToSpeakerBack(driveSubsystem.getPose()));})); //3.9624 works
+
+        //new Trigger(() -> {return driverController.getBackButtonPressed();}).onTrue(new TurnAndAim(angleController, driveSubsystem)); //3.9624 works
+
         
         //Angle Controller
         new Trigger(() -> {return driverController.getBButton();}).whileTrue(new AngleOpenLoop(angleController, ShooterConstants.kAngleControlMaxSpeed)).onFalse(new HoldAngle(angleController, () -> {return angleController.getAngleEncoder().getPosition();}));
@@ -120,23 +128,11 @@ public class Bindings {
 
          new Trigger(() -> {return operatorController.getLeftTriggerAxis() > .05;}).whileTrue(new IntakeOpenLoop(intake, () -> {return -operatorController.getLeftTriggerAxis();}));
 
-        
-        //  new Trigger(() -> {return driverController.getRightTriggerAxis() > 0 || driverController.getLeftTriggerAxis() > 0;}).whileTrue(new RunCommand(() -> {
-        //     intake.testRunMotors(driverController::getRightTriggerAxis, driverController::getLeftTriggerAxis);
-        //  }, intake)).onFalse(new InstantCommand(() -> {
-        //     intake.stopIntake();
-        //  }));
-
-        //  new Trigger(() -> {return driverController.getPOV() == 90 || driverController.getPOV() == 270;}).whileTrue(new RunCommand(() -> {
-        //     if(driverController.getPOV() == 90) {
-        //         intake.testRunMotors(() -> {return -IntakeConstants.kIntakeSpeed;}, () -> {return 0.0;});
-        //     } else {
-        //         intake.testRunMotors(() -> {return 0.0;}, () -> {return -IntakeConstants.kIndexerSpeed;});
-        //     }
-        //  }, intake)).onFalse(new InstantCommand(() -> {
-        //     intake.stopIntake();
-        //  }));
-      } 
+         new Trigger(() -> {return operatorController.getRightBumperPressed();}).onTrue(new InstantCommand(() -> {pneumatics.ToggleTrapSolenoid();}, pneumatics));
+       
+         new Trigger(() -> {return driverController.getPOV() == 90;}).whileTrue(new ClimberOpenLoop(climber, () -> {return ClimbConstants.kClimbMaxSpeed;}));
+         new Trigger(() -> {return driverController.getPOV() == 270;}).whileTrue(new ClimberOpenLoop(climber, () -> {return -ClimbConstants.kClimbMaxSpeed;}));
+    }
 
     
 }

@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.Supplier;
+
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -15,6 +17,7 @@ public class Climber extends SubsystemBase {
   /** Creates a new Climber. */
   private final CANSparkFlex m_LeftClimbMotor;
   private final CANSparkFlex m_RightClimbMotor;
+  
   public Climber() {
     m_LeftClimbMotor = new CANSparkFlex(ClimbConstants.kLeftClimbMotorCanId, MotorType.kBrushless);
     m_RightClimbMotor = new CANSparkFlex(ClimbConstants.kRightClimbMotorCanId, MotorType.kBrushless);
@@ -23,5 +26,10 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void runMotors(Supplier<Double> speedSupplier){
+    m_LeftClimbMotor.set(speedSupplier.get());
+    m_RightClimbMotor.set(-speedSupplier.get());
   }
 }

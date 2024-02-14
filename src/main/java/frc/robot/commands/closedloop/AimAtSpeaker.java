@@ -26,8 +26,8 @@ public class AimAtSpeaker extends Command {
     m_drive = drive;
     setpointAngle = 0;
     currentPose = new Pose2d();
-    m_AimPIDController = new PIDController(.03, 0, 0);
-    m_AimPIDController.setTolerance(2);
+    m_AimPIDController = new PIDController(.003, 0, 0); // was .03
+    m_AimPIDController.setTolerance(10);
     m_AimPIDController.enableContinuousInput(-180,180);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);
@@ -52,12 +52,17 @@ public class AimAtSpeaker extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("aimatspeaker is finished");
     m_drive.drive(0, 0, 0, true);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println(m_AimPIDController.getPositionError());
+    if(m_AimPIDController.getPositionError() < -178 || m_AimPIDController.getPositionError() > 178){
+      return true;
+    }
     return m_AimPIDController.atSetpoint();
   }
 }
