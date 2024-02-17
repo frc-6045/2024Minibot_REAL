@@ -41,7 +41,10 @@ public class Pneumatics extends SubsystemBase {
 
   public void ActutateIntakeSolenoid(boolean isOn) {
     m_Solenoid.set(isOn);
-  
+  }
+
+  public void ActutateTrapSolenoid(boolean isOn){
+    m_TrapSolenoid.set(isOn);
   }
   
   public void ToggleIntakeSolenoids(){

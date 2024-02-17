@@ -60,10 +60,15 @@ public class Intake extends SubsystemBase {
     }
   }
 
-  public void runIntakeAtSetSpeed(){
+  public void intakeIn(){
     m_IntakeMotor.set(-IntakeConstants.kIntakeSpeed);
     m_IndexerMotor.set(IntakeConstants.kIntakeSpeed);
 
+  }
+
+  public void intakeOut(){
+    m_IntakeMotor.set(IntakeConstants.kIntakeSpeed);
+    m_IndexerMotor.set(-IntakeConstants.kIntakeSpeed);
   }
 
   public void stopIntake() {

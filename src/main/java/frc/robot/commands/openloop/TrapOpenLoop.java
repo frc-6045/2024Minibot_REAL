@@ -27,12 +27,14 @@ public class TrapOpenLoop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_trap.getTrapMotor().set(speedSupplier.get());
+    m_trap.runMotors(speedSupplier);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_trap.runMotors(() -> {return 0.0;});
+  }
 
   // Returns true when the command should end.
   @Override

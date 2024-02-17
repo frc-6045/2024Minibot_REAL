@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.Supplier;
+
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -24,5 +26,9 @@ public class Trap extends SubsystemBase {
 
   public CANSparkFlex getTrapMotor(){
     return m_TrapMotor;
+  }
+
+  public void runMotors(Supplier<Double> speedSupplier){
+    m_TrapMotor.set(speedSupplier.get());
   }
 }

@@ -225,7 +225,6 @@ public final class Constants {
   public static final class FeederConstants {
     public static final int kFeederCANID = 22;
     public static final double kFeederSpeed = 1.00;
-    public static final double kFeederAmpSpeed = 0.50;
   }
   public static final class ShooterConstants {
     public static final int kShooterMotorCANID = 10;
@@ -240,12 +239,11 @@ public final class Constants {
     public static final double kShooterAmpI = 0;
     public static final double kShooterAmpD = 0;
     public static final int kShooterLaunchRPM = 4300;
-    public static final int kShooterAmpLaunchRPM = 900;
 
     public static final int kAngleControlCANID = 11; //TODO hey
     public static final double kAngleControlMaxSpeed = 0.12;
 
-    public static final double kShooterAngleP = 0.04; //start out really fn low
+    public static final double kShooterAngleP = 0.04; //start out really fn low was 0.04
     public static final double kShooterAngleI = 0.0;
     public static final double kShooterAngleD = 0.00;
 
@@ -257,14 +255,15 @@ public final class Constants {
     public static final int kIndexerCANID = 23;
     public static final double kIntakeSpeed = 1.0; 
     public static final double kIndexerSpeed = .5;
-    public static final double kIntakeAmpSpeed = 0.5; 
+    public static final double kIntakeSlowSpeed = 0.5; 
   }
 
   public static final class ClimbConstants {
     public static final int kLeftClimbMotorCanId = 13;
     public static final int kRightClimbMotorCanId = 14;
-    public static final int kTrapMotorCanId = 15; //TODO: CAN ID this
-    public static final double kClimbMaxSpeed = .10;
+    public static final int kTrapMotorCanId = 15;
+    public static final double kClimbMaxSpeed = .20;
+    public static final double kTrapMaxSpeed = .05;
 
   }
   

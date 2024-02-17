@@ -24,8 +24,8 @@ public class AngleController extends SubsystemBase {
 
   public AngleController() {
     m_AngleMotor = new CANSparkFlex(ShooterConstants.kAngleControlCANID, MotorType.kBrushless);
-    //m_AngleEncoder = m_AngleMotor.getAbsoluteEncoder(Type.kDutyCycle);
-    m_RelativeEncoder = m_AngleMotor.getEncoder();
+    m_AngleEncoder = m_AngleMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    //m_RelativeEncoder = m_AngleMotor.getEncoder();
     m_limitSwitch = new DigitalInput(0);
   }
 
@@ -33,16 +33,20 @@ public class AngleController extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("hood angle", m_RelativeEncoder.getPosition());
+    SmartDashboard.putNumber("hood angle", m_AngleEncoder.getPosition());
   }
 
   public CANSparkFlex getAngleMotor() {
     return m_AngleMotor;
   }
 
-  public RelativeEncoder getAngleEncoder() {
+  //public RelativeEncoder getAngleEncoder() {
     //return m_AngleEncoder;
-    return m_RelativeEncoder;
+  //  return m_RelativeEncoder;
+  //}
+
+  public AbsoluteEncoder getAngleEncoder() {
+    return m_AngleEncoder;
   }
 
   public DigitalInput getLimitSwitch(){
